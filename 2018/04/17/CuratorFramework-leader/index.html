@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>实现Leader选举通过 Curator | Hexo</title>
+  <meta name="keywords" content=" Curator , ZooKeeper , Leader Election , 选举 ">
+  <meta name="description" content="实现Leader选举通过 Curator | Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="2018年，我是一个刚毕业的学生，从事编程工作。努力学习中。 对于博文有想法或者意见建议的，可以通过邮箱联系我，nickChenyx@gmail.com.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Create_Rubbish">
+<meta property="og:url" content="http://nickChenyx.github.io/about/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2018年，我是一个刚毕业的学生，从事编程工作。努力学习中。 对于博文有想法或者意见建议的，可以通过邮箱联系我，nickChenyx@gmail.com.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-08T07:18:04.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Create_Rubbish">
+<meta name="twitter:description" content="2018年，我是一个刚毕业的学生，从事编程工作。努力学习中。 对于博文有想法或者意见建议的，可以通过邮箱联系我，nickChenyx@gmail.com.">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js" rel="stylesheet">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1.0.1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>nickChen</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/nickchenyx" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="email" href="mailto:nickchenyx@gmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">All Articles<small>(11)</small></div></li>
+    
+        
+            
+            <li><div data-rel="后端">后端<small>(6)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="前端">前端<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="数据库">数据库<small>(3)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Linux">Linux<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  site_url"  href="/about">About</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="11">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode === 13){return false;}">
+        <input id="local-search-input" class="search" type="text" placeholder="Search..." />
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a class="color3">Curator</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Cache</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">缓存</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">ZooKeeper</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">Java</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">JDK</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">源码</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">Map</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">JavaScript</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">jsonp</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Redis</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">运维</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">SPI</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Linux</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Distributed</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">分布式</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Leader Election</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">选举</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">MySQL</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Scala</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="后端 "
+           href="/2018/04/14/CuratorFramework-Cache/"
+           data-tag="Curator,Cache,缓存,ZooKeeper"
+           data-author="" >
+            <span class="post-title" title="使用ZK实现 Cache 通过 Curator">使用ZK实现 Cache 通过 Curator</span>
+            <span class="post-date" title="2018-04-14 17:03:31">2018/04/14</span>
+        </a>
+        
+        <a  class="后端 "
+           href="/2018/04/17/jdk1-7-concurrenthashmap-summary/"
+           data-tag="Java,JDK,源码,Map"
+           data-author="" >
+            <span class="post-title" title="JDK1.7 ConcurrentHashMap 解析">JDK1.7 ConcurrentHashMap 解析</span>
+            <span class="post-date" title="2018-04-17 16:04:46">2018/04/17</span>
+        </a>
+        
+        <a  class="前端 "
+           href="/2018/04/17/jsonp-essentials/"
+           data-tag="JavaScript,jsonp"
+           data-author="" >
+            <span class="post-title" title="JSONP 详解">JSONP 详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="数据库 "
+           href="/2020/05/08/redis-devops/"
+           data-tag="Redis,运维"
+           data-author="" >
+            <span class="post-title" title="Redis 线上运维操作">Redis 线上运维操作</span>
+            <span class="post-date" title="2020-05-08 16:08:14">2020/05/08</span>
+        </a>
+        
+        <a  class="数据库 "
+           href="/2019/03/27/redis-implements/"
+           data-tag="Cache,缓存,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 实现 (待补全)">Redis 实现 (待补全)</span>
+            <span class="post-date" title="2019-03-27 14:56:39">2019/03/27</span>
+        </a>
+        
+        <a  class="后端 "
+           href="/2018/04/17/spi-essentials-md/"
+           data-tag="Java,SPI"
+           data-author="" >
+            <span class="post-title" title="SPI 机制详解">SPI 机制详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="Linux "
+           href="/2018/05/09/screen-manual/"
+           data-tag="运维,Linux"
+           data-author="" >
+            <span class="post-title" title="Screen 使用指南">Screen 使用指南</span>
+            <span class="post-date" title="2018-05-09 21:48:29">2018/05/09</span>
+        </a>
+        
+        <a  class="后端 "
+           href="/2018/04/12/CuratorFramework-DistributedQueue/"
+           data-tag="Curator,ZooKeeper,Distributed,分布式"
+           data-author="" >
+            <span class="post-title" title="实现分布式队列通过 Curator">实现分布式队列通过 Curator</span>
+            <span class="post-date" title="2018-04-12 11:33:29">2018/04/12</span>
+        </a>
+        
+        <a  class="后端 "
+           href="/2018/04/17/CuratorFramework-leader/"
+           data-tag="Curator,ZooKeeper,Leader Election,选举"
+           data-author="" >
+            <span class="post-title" title="实现Leader选举通过 Curator">实现Leader选举通过 Curator</span>
+            <span class="post-date" title="2018-04-17 14:42:41">2018/04/17</span>
+        </a>
+        
+        <a  class="数据库 "
+           href="/2018/04/18/mysql-cmd/"
+           data-tag="MySQL"
+           data-author="" >
+            <span class="post-title" title="MySQL 总集">MySQL 总集</span>
+            <span class="post-date" title="2018-04-18 11:19:10">2018/04/18</span>
+        </a>
+        
+        <a  class="后端 "
+           href="/2018/04/17/scala-for-the-impatient/"
+           data-tag="Scala"
+           data-author="" >
+            <span class="post-title" title="Scala 学习总结">Scala 学习总结</span>
+            <span class="post-date" title="2018-04-17 16:04:08">2018/04/17</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-CuratorFramework-leader" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">实现Leader选举通过 Curator</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="后端">后端</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color3">Curator</a>
+            
+            <a class="color5">ZooKeeper</a>
+            
+            <a class="color1">Leader Election</a>
+            
+            <a class="color3">选举</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='更新时间: 2020-05-08 15:18:04'>2018-04-17 14:42</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Curator-Framework-深入了解"><span class="toc-text">Curator Framework 深入了解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#选举功能实现-（Leader-Election）"><span class="toc-text">选举功能实现 （Leader Election）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LeaderLatch"><span class="toc-text">LeaderLatch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeaderSelector"><span class="toc-text">LeaderSelector</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Curator-Framework-深入了解"><a href="#Curator-Framework-深入了解" class="headerlink" title="Curator Framework 深入了解"></a>Curator Framework 深入了解</h1><p>本文受到 <a href="http://colobu.com" target="_blank" rel="noopener">colobu</a> 前辈文章的指引，深入了解 Curator Framework 的工作流程，十分感谢 colobu 前辈的博文给予的启发和指导。</p>
+<h2 id="选举功能实现-（Leader-Election）"><a href="#选举功能实现-（Leader-Election）" class="headerlink" title="选举功能实现 （Leader Election）"></a>选举功能实现 （Leader Election）</h2><p>Curator 提供了 Leader 选举的功能，用于在分布式计算中选举出一个节点作为一组节点的 Leader。Curator 提供了两种 Leader Election 的 Recipe：</p>
+<h3 id="LeaderLatch"><a href="#LeaderLatch" class="headerlink" title="LeaderLatch"></a>LeaderLatch</h3><p>构造方法：</p>
+<pre><code class="java">// LeaderLatch.class
+
+public LeaderLatch(CuratorFramework client, String latchPath)
+
+public LeaderLatch(CuratorFramework client, String latchPath, String id/*zk的 path：value 中的 value*/)</code></pre>
+<p>同之前几章的使用风格，需要 <code>start()</code> 方法调用了才会开启选举。 <code>start()</code> 方法之后会调用真正的工作开始方法：</p>
+<pre><code class="java">// LeaderLatch.class
+private synchronized void internalStart() {
+        if ( state.get() == State.STARTED ) { // 状态标记为开始 start()会完成
+            // 很重要的一条实践，客户端需要注册一个 lisenter 用来监听和 zk 连接的状态，比如中断、重连等
+            client.getConnectionStateListenable().addListener(listener);
+            //...
+            // 开始选举相关的工作
+            reset();
+            //...
+        }
+}</code></pre>
+<p><code>reset()</code> 是一个会重复执行的方法，用来争抢当前的 leader：</p>
+<pre><code class="java">// LeaderLatch.class
+void reset() throws Exception {
+        setLeadership(false); // 当前不是leader，先置为 false；如果是leader不会进行这个操作
+        setNode(null); // 成为leader后会创建他的节点，存储起来方便下次删除旧节点
+        // Curator 方法非常通用的一种设计，专门用来做回调
+        BackgroundCallback callback = new BackgroundCallback() {
+            @Override
+            public void processResult(CuratorFramework client, CuratorEvent event) throws Exception {
+                // 不知道这个 debugResetWaitLatch 这个什么用... 一开始就被赋值 null，没有修改过。看起来开发开发另一个新特性的 hook。
+                // volatile CountDownLatch debugResetWaitLatch = null;
+                if ( debugResetWaitLatch != null ) {
+                    debugResetWaitLatch.await();
+                    debugResetWaitLatch = null;
+                }
+                // 节点创建成功
+                if ( event.getResultCode() == KeeperException.Code.OK.intValue() ) {
+                    setNode(event.getName()); // 将当前 path 的名称记录下来，方便后续删除
+                    if ( state.get() == State.CLOSED ) {
+                        setNode(null); // 这应该是一个安全检测，如果这时候leaderLatch被 close() 了，这里的 node 也就不存了。下面创建的也是临时节点。
+                    } else {
+                        getChildren(); // 获取latchPath（构造方法中传入的）下所有的节点，用来关键的判断谁拿到了 leader 权限
+                    }
+                } else {
+                    log.error(&quot;getChildren() failed. rc = &quot; + event.getResultCode());
+                }
+            }
+        };
+        //这里可以看到创建的是一个临时节点，value的值就是 id
+    client.create().creatingParentContainersIfNeeded().withProtection().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).inBackground(callback).forPath(ZKPaths.makePath(latchPath, LOCK_NAME), LeaderSelector.getIdBytes(id));
+    }</code></pre>
+<p><code>checkLeadership()</code> 是关键的终结方法了，他用来判断是谁拿到了 leader 权限：</p>
+<pre><code class="java">// LeaderLatch.class
+private void getChildren() throws Exception {
+        BackgroundCallback callback = new BackgroundCallback() {
+            public void processResult(... )throws Exception {
+                if ( event.getResultCode() == KeeperException.Code.OK.intValue() ) {
+                    // 终结方法，找到对应的 leader
+                    checkLeadership(event.getChildren());
+                }
+            }
+        };
+    // 获取 latchPath 所有的节点
+client.getChildren().inBackground(callback).forPath(ZKPaths.makePath(latchPath, null));
+    }
+</code></pre>
+<p>篇幅有限，<code>checkLeadership()</code> 只介绍获得 leader 身份的情况了：</p>
+<pre><code class="java">// LeaderLatch.class
+private void checkLeadership(List&lt;String&gt; children) throws Exception {
+        final String localOurPath = ourPath.get(); // 当前 LeaderLacth 获取的节点
+        List&lt;String&gt; sortedChildren = LockInternals.getSortedChildren(LOCK_NAME, sorter, children); // 排序 latchPath 下所有的节点
+        int ourIndex = (localOurPath != null) ? sortedChildren.indexOf(ZKPaths.getNodeFromPath(localOurPath)) : -1; // 很明白的代码，查询当前 LeaderLacth 类的节点是否出现在排序数组中
+        if ( ourIndex &lt; 0 ) {// 没有出现，就 reset() 方法重新来
+            log.error(&quot;Can&#39;t find our node. Resetting. Index: &quot; + ourIndex);
+            reset();
+        }
+        else if ( ourIndex == 0 ) {// 这里就是关键了， == 0，排在第一位，获得 leader 权限
+            setLeadership(true);
+        } else { /*...*/}
+}</code></pre>
+<p>至此一个 Leader 选举的过程就完成了，Curator 利用了 ZooKeeper 的各种特性可谓是玩出了花儿…  </p>
+<p>这里还介绍一个阻塞的方法等待当前对象获取到 Leader 身份：</p>
+<pre><code class="java">// LeaderLatch.class
+public void await() throws InterruptedException, EOFException {
+        synchronized(this) { // 锁住当前对象
+            while ((state.get() == State.STARTED) &amp;&amp; !hasLeadership.get()){
+                wait(); // 等待成为 Leader，这里 setLeadership(true) 的方法里会 notifyAll()来唤醒的
+            }
+        }
+        if ( state.get() != State.STARTED ) {
+            throw new EOFException();
+        }
+}
+// 超时版本
+public boolean await(long timeout, TimeUnit unit) throws InterruptedException</code></pre>
+<h3 id="LeaderSelector"><a href="#LeaderSelector" class="headerlink" title="LeaderSelector"></a>LeaderSelector</h3><p>Curator还提供了另外一种选举方法，注意涉及以下四个类：</p>
+<ul>
+<li>LeaderSelector</li>
+<li>LeaderSelectorListener</li>
+<li>LeaderSelectorListenerAdapter</li>
+<li>CancelLeadershipException</li>
+</ul>
+<pre><code class="java">// LeaderSelector.class
+// 构造函数
+public LeaderSelector(CuratorFramework client, String leaderPath, LeaderSelectorListener listener)
+
+public LeaderSelector(CuratorFramework client, String leaderPath, ExecutorService executorService, LeaderSelectorListener listener)</code></pre>
+<p>需要分析 <code>LeaderSelector</code> 依旧需要从 <code>start()</code> 方法开始，但在开始之前还有一个重要的方法 <code>autoRequeue()</code> 。如果需要该实例不停的去尝试获取 leader 身份，就需要调用此方法一次，在构造好该对象之后先调用 <code>autoRequeue()</code> 再 <code>start()</code>。</p>
+<p><code>start()</code> 的逻辑是 ：</p>
+<pre><code>start() -&gt; requeue() -&gt; internalRequeue() ----
+                               ↑             ↓ autoRequeue == true
+                               --------------</code></pre><p>在 <code>internalRequeue()</code> 中配置了一个 <code>Future</code> 任务执行 <code>doWorkLoop()</code> 方法，每次调用 <code>internalRequeue()</code> 是同步的，并且 <code>Future</code> 任务执行也是同步的，也就是必须一次一次同步的去尝试获取 leader 身份。</p>
+<pre><code class="java">// LeaderSelector.class
+void doWork() throws Exception {
+        hasLeadership = false;
+        try {
+            // 这里就是关键了，这是一个分布式锁
+            // InterProcessMutex mutex
+            // 一旦这个拿到了就是持有锁了
+            // 下面只需要 takeLeadership 方法阻塞住方法，不让这边执行到 finally 代码块就好了
+            mutex.acquire();
+
+            hasLeadership = true;
+            try {/*...*/}
+            catch(/**/){/**/}
+            finally {
+                clearIsQueued();
+            }
+        }
+        catch ( InterruptedException e ) {
+            Thread.currentThread().interrupt();
+            throw e;
+        }
+        finally {
+            if ( hasLeadership ) {
+                hasLeadership = false;
+                try {
+                    mutex.release(); // 释放了锁，其他的可以去竞争 leader 了
+                }
+                catch ( Exception e )
+                {
+                    ThreadUtils.checkInterrupted(e);
+                    log.error(&quot;The leader threw an exception&quot;, e);
+                    // ignore errors - this is just a safety
+                }
+            }
+        }
+    }
+</code></pre>
+<p><strong>异常处理</strong><br><code>LeaderSelectorListener</code> 类继承了 <code>ConnectionStateListener</code> ，<code>LeaderSelector</code> 必须小心连接状态的改变。如果实例成为 leader,  当 <code>SUSPENDED</code> 状态出现时， 实例必须假定在重新连接成功之前它可能不再是 leader了。 如果 <code>LOST</code> 状态出现， 实例不再是 leader， <code>takeLeadership()</code> 方法返回。</p>
+<p><em>重要：</em>推荐处理方式是当收到 <code>SUSPENDED</code> 或 <code>LOST</code> 时抛出 <code>CancelLeadershipException</code> 异常。 这会导致 <code>LeaderSelector</code> 实例中断并取消执行 <code>takeLeadership()</code>方法的异常。Curator 提供了 <code>LeaderSelectorListenerAdapter</code> 以供继承，此 <code>Adapter</code> 提供了推荐的处理逻辑。</p>
+<pre><code class="java">public abstract class LeaderSelectorListenerAdapter implements LeaderSelectorListener {
+    @Override
+    public void stateChanged(CuratorFramework client, ConnectionState newState ){
+        if ( client.getConnectionStateErrorPolicy().isErrorState(newState) ){
+            throw new CancelLeadershipException();
+        }
+    }
+}</code></pre>
+<p>这里跑出异常以中断  <code>takeLeadership()</code>方法只能抛出<code>CancelLeadershipException</code> 异常：</p>
+<pre><code class="java">// LeaderSelector.WrappedListener.class
+public void stateChanged(CuratorFramework client, ConnectionState newState) {
+       try{
+                listener.stateChanged(client, newState);
+       } catch ( CancelLeadershipException dummy ) {
+                // 中断逻辑 
+                leaderSelector.interruptLeadership();
+       }
+}</code></pre>
+<p>与 <code>LeaderLatch</code> 相比， 通过 <code>LeaderSelectorListener</code> 可以对领导权进行控制， 在适当的时候释放领导权，这样每个节点都有可能获得领导权。 </p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>实现Leader选举通过 Curator</p>
+    
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2018-04-17, 14:42:41</p>
+    <p><span class="copy-title">Updated At:</span>2020-05-08, 15:18:04</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2018/04/17/CuratorFramework-leader/" title="实现Leader选举通过 Curator">http://nickChenyx.github.io/2018/04/17/CuratorFramework-leader/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2018-2020 nickChen</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#Curator','#Cache','#缓存','#ZooKeeper','#Java','#JDK','#源码','#Map','#JavaScript','#jsonp','#Redis','#运维','#SPI','#Linux','#Distributed','#分布式','#Leader Election','#选举','#MySQL','#Scala',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().trim().split('\n').length, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 542px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    .post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+    .post .pjax article :not(pre) > code {
+        color: #24292e;
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        background-color: rgba(27,31,35,.05);
+        border-radius: 3px;
+        font-size: 85%;
+        margin: 0;
+        padding: .2em .4em;
+    }
+    
+</style>
+
+
+
+
+
+
+
+</html>
