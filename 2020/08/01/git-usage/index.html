@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>Create_Rubbish | Hexo</title>
-  <meta name="keywords" content>
-  <meta name="description" content="Create_Rubbish | Hexo">
+  <title>git 使用手册 | Hexo</title>
+  <meta name="keywords" content=" git , 使用手册 ">
+  <meta name="description" content="git 使用手册 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -411,24 +411,38 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-git-usage" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Create_Rubbish</h1>
+        <h1 class="article-title">git 使用手册</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            
+                <a  data-rel="工具">工具</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color4">git</a>
+            
+            <a class="color5">使用手册</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-            Created At : <time class="date" title='更新时间: 2020-08-02 20:37:49'>2018-04-18 11:16</time>
+            Created At : <time class="date" title='更新时间: 2020-08-02 20:25:32'>2020-08-01 10:57</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:233</span>
+        <span>字数:510</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -447,7 +461,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-log-使用"><span class="toc-text">git log 使用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -463,9 +477,77 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。<br>2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。<br>2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。</p>
-<p>作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的方向。<br>当然，还是怀揣着想做一个更具有技术探索精神的中间件程序员的梦想。</p>
-<p>对于博文有想法或者意见建议的，可以通过邮箱联系我，<a href="mailto:nickChenyx@gmail.com" target="_blank" rel="noopener">nickChenyx@gmail.com</a>.</p>
+        <p>[TOC]</p>
+<h3 id="git-log-使用"><a href="#git-log-使用" class="headerlink" title="git log 使用"></a>git log 使用</h3><p><strong>精简 log 打印</strong></p>
+<pre><code class="shell">git log --online
+
+# 01e21e1 (HEAD -&gt; master, origin/master, origin/HEAD) !2 Feature:add lambda support
+# 55118f9 Feature:add lambda support
+# 96c6a84 !1 Feat：clean code fragement Merge pull request !1 from 寒沧丶/clean
+# d52d730 clean:clean code fragment
+# 0b2ab33 update .gitignore.
+# d682d2b update README.md.</code></pre>
+<p><strong>查询时间范围内的 log 信息</strong></p>
+<pre><code class="shell"># 只显示2020-08-01到2020-08-08日的提交 
+git log --after=&quot;2020-08-01&quot; --before=&quot;2020-08-08&quot;
+
+# 显示昨天之后的提交
+git log --after=&quot;yesterday&quot;
+
+# 显示这一星期的提交
+git log --after=&quot;1 week ago&quot;
+
+git log --after=&quot;10 day ago&quot;
+
+git log --after=&quot;1 month ago&quot;</code></pre>
+<p><strong>在log 中展示变更</strong></p>
+<pre><code class="shell">git log -p
+
+# commit 679890d2e3cd7cb53ca586cea72ad1d5abb472e5
+# Author: tianyaleixiaowu &lt;272551766@qq.com&gt;
+# Date:   Mon May 11 21:55:34 2020 +0800
+# 
+#     update QuickStart.md.
+# 
+# diff --git a/QuickStart.md b/QuickStart.md
+# index 01c8cc9..0bbc812 100644
+# --- a/QuickStart.md
+# +++ b/QuickStart.md
+# @@ -26,7 +26,7 @@
+#          &lt;dependency&gt;
+#             &lt;groupId&gt;com.gitee.jd-platform-opensource&lt;/groupId&gt;
+#             &lt;artifactId&gt;asyncTool&lt;/artifactId&gt;
+# -           &lt;version&gt;V1.2-SNAPSHOT&lt;/version&gt;
+# +           &lt;version&gt;V1.3-SNAPSHOT&lt;/version&gt;^M
+#         &lt;/dependency&gt;</code></pre>
+<p>*<em>根据提交者过滤 log *</em></p>
+<pre><code class="shell">git log --author=&quot;nickChen&quot;</code></pre>
+<p><strong>根据提交信息检索 log</strong></p>
+<pre><code class="shell">git log --grep=&quot;README&quot;
+
+# -i 忽略大小写
+git log -i --grep=&quot;README&quot;
+
+# 正则搜索包含 README 或 changelog 的提交信息
+git log -i --grep=&quot;README\|changelog&quot;</code></pre>
+<p><strong>查看某个文件的变更log</strong></p>
+<pre><code class="shell"># 查看这几个文件的提交记录，并打印diff
+git log -p README.md changelog
+
+# 上述情况下，查询包含 fix 信息的提交记录
+git log -i --grep=&quot;fix&quot; -p README.md changelog</code></pre>
+<p><strong>查看文件内容的变更 log</strong></p>
+<pre><code class="shell"># 查看提交变更中包含 void begin(); 所有 commit log，并打印 log 变更内容
+# 根据文件内容的提交来查询变更，比较方便定位代码中的一些变化
+git log -i -S&quot;void begin();&quot; -p</code></pre>
+<p><strong>查看 merge commit log</strong></p>
+<pre><code class="shell">git log --merges</code></pre>
+<p><strong>查看两个分支之间的diff</strong></p>
+<pre><code class="shell"># 查看在 develop 基础上相较于 master 多了哪些 commit
+git log master..develop</code></pre>
+<p><strong>自定义 log 的输出格式</strong></p>
+<pre><code class="shell">git log --pretty=format:&quot;%Cred%an - %ar%n %Cblue %h -%Cgreen %s %n&quot;</code></pre>
+<p>具体的格式化方式可以参看<a href="https://www.git-scm.com/docs/git-log?ref=hackernoon.com#_pretty_formats" target="_blank" rel="noopener">文档</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
@@ -473,6 +555,18 @@
 </article>
 
 
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>git 使用手册</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">510</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2020-08-01, 10:57:56</p>
+    <p><span class="copy-title">Updated At:</span>2020-08-02, 20:25:32</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2020/08/01/git-usage/" title="git 使用手册">http://nickChenyx.github.io/2020/08/01/git-usage/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
 
 
 
