@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>NickChenyx&#39;s Blog</title>
-  <meta name="keywords" content>
-  <meta name="description" content="NickChenyx&#39;s Blog">
+  <title>Linux 服务器负载(load)过高排查 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" linux , 运维 , 问题排查 ">
+  <meta name="description" content="Linux 服务器负载(load)过高排查 | NickChenyx&#39;s Blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -52,7 +52,7 @@
 </div>
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avatar.jpg" />
@@ -433,12 +433,61 @@
         </div>
     </div>
 </aside>
-<div class="post index">
+<div class="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-linux-load-high" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对博客的理解"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于写作"><span class="toc-text">关于写作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客平台"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+        <h1 class="article-title">Linux 服务器负载(load)过高排查</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="Linux">Linux</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color1">linux</a>
+            
+            <a class="color3">运维</a>
+            
+            <a class="color5">问题排查</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='更新时间: 2020-11-01 16:33:09'>2020-11-01 14:10</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:832</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#load-avg"><span class="toc-text">load avg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题排查"><span class="toc-text">问题排查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过-CPU-使用率定位"><span class="toc-text">通过 CPU 使用率定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TODO"><span class="toc-text">TODO</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -451,25 +500,81 @@
     }
 </style>
 </div>
-            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
-<blockquote>
-<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h2 id="load-avg"><a href="#load-avg" class="headerlink" title="load avg"></a>load avg</h2><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Load_(computing)" target="_blank" rel="noopener">服务器负载 load Wiki 解释</a></p>
 </blockquote>
-<blockquote>
-<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
-</blockquote>
-<blockquote>
-<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
-</blockquote>
-<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
-<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
-<h2 id="关于写作"><a href="#关于写作" class="headerlink" title="关于写作"></a>关于写作</h2><p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a href="https://hexo.io/">Hexo</a> 生成，部署在 <a href="https://pages.github.com/">GitHub Pages</a>，主题 <a href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 已经在github上开源</p>
+<p>服务器负载实际上指的就是当前操作系统 Running(执行中) 及 Runnable(就绪等待执行) 的任务队列数量(实际情况可能会包含其他，参看 wiki)，实际展示了当前系统执行的压力——如果就绪执行的队列过长，那么任务执行的周期就越长，可以理解为服务器已经无法承担如此大的压力，只能排队执行了。<br>类比于一个面包店，正常情况下，一个服务员可以解决店内某一时刻一人结账，如果此时有两人结账，那么其中一人只能等待。此时结账还可控，只是第二位客人结账时间会延长，但如果有十人同时结账，此时只能一个接一个的排队结账了，最后一位客人的结账周期就会非常漫长了。</p>
+<p>linux load avg 可以通过 <code>uptime</code> \ <code>top</code> 等指令查看，也可以通过读取文件 <code>/proc/loadavg</code> 获取相关数值。</p>
+<pre><code class="shell">$ uptime
+ 14:34:03 up 10:43,  4 users,  load average: 0.06, 0.11, 0.09</code></pre>
+<p>load avg 后跟有三个数值，分别以逗号分隔开，这三个数字分别代表了系统近 1 分钟、5 分钟、15 分钟的平均负载情况。</p>
+<p>实时的系统运行情况可以通过 <code>vmstat</code> 查询，获取到更细粒度的系统运行状态。</p>
+<pre><code class="shell"># 以每 1 秒为间隔，连输打印五次
+$vmstat 1 5
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 4  1      0 2311684 178948 18389776    0    0     3   189   17    9 13  8 79  0  0
+ 1  0      0 2311404 178952 18390256    0    0     0   384 18457 32160  3  3 94  0  0
+ 2  1      0 2312008 178952 18390368    0    0     0   608 18300 31971  5  3 92  1  0
+ 1  0      0 2311052 178952 18390636    0    0     0   636 18108 31634  3  3 94  1  0
+ 3  1      0 2311168 178952 18390784    0    0     0   576 19212 32975  5  3 92  0  0</code></pre>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2><h3 id="通过-CPU-使用率定位"><a href="#通过-CPU-使用率定位" class="headerlink" title="通过 CPU 使用率定位"></a>通过 CPU 使用率定位</h3><p>通过 CPU 的使用率来定位某个进程/线程的运行问题。</p>
+<p><strong>执行方案：</strong></p>
+<p><strong>1. 先定位出 CPU 使用率较高的进程，找到对应的进程 id</strong></p>
+<pre><code class="shell">$top
+# 进入交互界面后，按 P 使进程按照 CPU 使用率排序</code></pre>
+<p><strong>2. 找到对应进程的使用 CPU 较高的子进程</strong></p>
+<pre><code class="shell">$top -Hp &lt;pid&gt;
+# &lt;pid&gt; 就是第一步查出来的进程 id</code></pre>
+<p>此时已经能定位到某些 CPU 占用较高的进程</p>
+<p><em>如果是 JVM 项目，那么可以继续向下定位到 JVM 的执行堆栈。</em></p>
+<p><strong>JVM 项目</strong></p>
+<p><strong>3. 将第二步得到的进程 id 转换为十六进制</strong></p>
+<pre><code class="shell">$printf &quot;0x%x\n&quot; &lt;pid&gt;
+# &lt;pid&gt; 是第二步查出的进程 id</code></pre>
+<p><strong>4. 将第三步得到的十六进制和 jstack 比较找到堆栈</strong></p>
+<pre><code class="shell">$jstack &lt;pid&gt; &gt; jstack.tmp
+# 打印 JVM 进程堆栈到 jstack.tmp 文件
+# 后续只需要在文件中搜索第三步的十六进制字符串，即可找到其对应的堆栈</code></pre>
+<p><strong>以上步骤已有脚本实现，可以参考使用。</strong> [^1] 不过在多用户的 linux 中可能会出现使用上的问题，所以基本的排查原理还是要熟知。</p>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ul>
+<li>sar 工具</li>
+<li>iostat 工具</li>
+</ul>
+<p>[^1]: <a href="https://github.com/oldratlee/useful-scripts/blob/dev-2.x/docs/java.md#-show-busy-java-threads" target="_blank" rel="noopener">查找 CPU 使用最高的 Java 线程</a></p>
 
-        </article>
-        
-        
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>Linux 服务器负载(load)过高排查</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">832</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2020-11-01, 14:10:54</p>
+    <p><span class="copy-title">Updated At:</span>2020-11-01, 16:33:09</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2020/11/01/linux-load-high/" title="Linux 服务器负载(load)过高排查">http://nickChenyx.github.io/2020/11/01/linux-load-high/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">©2018-2020 nickChen</p>

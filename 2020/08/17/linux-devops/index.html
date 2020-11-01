@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>NickChenyx&#39;s Blog</title>
-  <meta name="keywords" content>
-  <meta name="description" content="NickChenyx&#39;s Blog">
+  <title>Linux 开发运维操作记录 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" linux , 运维 ">
+  <meta name="description" content="Linux 开发运维操作记录 | NickChenyx&#39;s Blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -52,7 +52,7 @@
 </div>
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avatar.jpg" />
@@ -433,12 +433,59 @@
         </div>
     </div>
 </aside>
-<div class="post index">
+<div class="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-linux-devops" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对博客的理解"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于写作"><span class="toc-text">关于写作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客平台"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+        <h1 class="article-title">Linux 开发运维操作记录</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="Linux">Linux</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color1">linux</a>
+            
+            <a class="color3">运维</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='更新时间: 2020-08-17 13:40:54'>2020-08-17 13:22</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:271</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件"><span class="toc-text">文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存"><span class="toc-text">内存</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -451,25 +498,69 @@
     }
 </style>
 </div>
-            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
 <blockquote>
-<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+<p>此篇文章碎片式积累了 linux 上的相关操作，使用时可以搜索当前页面</p>
 </blockquote>
-<blockquote>
-<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
-</blockquote>
-<blockquote>
-<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
-</blockquote>
-<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
-<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
-<h2 id="关于写作"><a href="#关于写作" class="headerlink" title="关于写作"></a>关于写作</h2><p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a href="https://hexo.io/">Hexo</a> 生成，部署在 <a href="https://pages.github.com/">GitHub Pages</a>，主题 <a href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 已经在github上开源</p>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p><strong>压缩日志并删除原始文件</strong></p>
+<pre><code class="shell">#!/bin/bash
+yesterday=`date -d &#39;1days ago&#39; +%Y_%m_%d`
+cd $1
+find . -name &quot;*$yesterday*.log&quot; -type f | xargs -I {} tar -zcvf {}.tar.gz {} --remove-files</code></pre>
+<p>说明加上参数<code>--remove-files</code>，<code>tar</code> 命令可以压缩并删除的源文件</p>
+<p>这样只能删除文件，如果删除源文件夹，可以使用以下方法</p>
+<pre><code class="shell">tar -zcvf aaa/ aaa.tar.gz &amp;&amp; rm -rf aaa</code></pre>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p><strong>查看进程启动时间</strong></p>
+<pre><code class="shell"># 启动时间
+ps -eo lstart
 
-        </article>
-        
-        
+# 运行多长时间
+ps -eo etime
+
+# 直接查看进程的启动时间
+ps -eo pid,lstart,etime | grep &lt;pid&gt;</code></pre>
+<p><strong>查看进程系统调用</strong></p>
+<pre><code class="shell"># 通常 -p &lt;pid&gt; 即可
+# -f 可以跟踪其子进程的系统调用，也就可以跟踪一个多线程服务的所有系统调用了
+strace -f -p &lt;pid&gt;</code></pre>
+<p><strong>查看进程的内存占用</strong></p>
+<pre><code class="shell"># 查看进程的内存占用情况
+pmap -x &lt;pid&gt;</code></pre>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><p><strong>查看剩余可用内存</strong></p>
+<pre><code class="shell">free -h
+free -m</code></pre>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>Linux 开发运维操作记录</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">271</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2020-08-17, 13:22:51</p>
+    <p><span class="copy-title">Updated At:</span>2020-08-17, 13:40:54</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2020/08/17/linux-devops/" title="Linux 开发运维操作记录">http://nickChenyx.github.io/2020/08/17/linux-devops/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">©2018-2020 nickChen</p>
