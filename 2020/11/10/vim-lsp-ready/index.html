@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>使用ZK实现 Cache 通过 Curator | NickChenyx&#39;s Blog</title>
-  <meta name="keywords" content=" Curator , Cache , 缓存 , ZooKeeper ">
-  <meta name="description" content="使用ZK实现 Cache 通过 Curator | NickChenyx&#39;s Blog">
+  <title>vim lsp 安装配置 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" vim ">
+  <meta name="description" content="vim lsp 安装配置 | NickChenyx&#39;s Blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -503,9 +503,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-CuratorFramework-Cache" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-vim-lsp-ready" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">使用ZK实现 Cache 通过 Curator</h1>
+        <h1 class="article-title">vim lsp 安装配置</h1>
     
     <div class="article-meta">
         
@@ -513,32 +513,26 @@
         
         <span class="book">
             
-                <a  data-rel="后端">后端</a>
+                <a  data-rel="vim">vim</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a class="color3">Curator</a>
-            
-            <a class="color1">Cache</a>
-            
-            <a class="color3">缓存</a>
-            
-            <a class="color5">ZooKeeper</a>
+            <a class="color4">vim</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='更新时间: 2020-05-08 15:18:04'>2018-04-14 17:03</time>
+            发布时间 : <time class="date" title='更新时间: 2020-11-11 16:49:45'>2020-11-10 10:26</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:712</span>
+        <span>字数:97</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -557,7 +551,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Curator-Framework-深入了解"><span class="toc-text">Curator Framework 深入了解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZooKeeper-Cache-实现"><span class="toc-text">ZooKeeper Cache 实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Path-Cache"><span class="toc-text">Path Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-Cache"><span class="toc-text">Node Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tree-Node"><span class="toc-text">Tree Node</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vim-lsp-方案"><span class="toc-text">vim-lsp 方案</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -573,69 +567,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Curator-Framework-深入了解"><a href="#Curator-Framework-深入了解" class="headerlink" title="Curator Framework 深入了解"></a>Curator Framework 深入了解</h1><p>本文受到 <a href="http://colobu.com" target="_blank" rel="noopener">colobu</a> 前辈文章的指引，深入了解 Curator Framework 的工作流程，十分感谢 colobu 前辈的博文给予的启发和指导。</p>
-<h2 id="ZooKeeper-Cache-实现"><a href="#ZooKeeper-Cache-实现" class="headerlink" title="ZooKeeper Cache 实现"></a>ZooKeeper Cache 实现</h2><p>利用 ZooKeeper 在集群的节点上缓存数据。<a href="https://github.com/apache/curator/blob/master/curator-examples/src/main/java/cache" target="_blank" rel="noopener">示例代码</a></p>
-<h3 id="Path-Cache"><a href="#Path-Cache" class="headerlink" title="Path Cache"></a>Path Cache</h3><p>Path Cache 使用 ZK 的节点作为 KV 存储系统，在实现上涉及的类：</p>
-<ul>
-<li><code>PathChildrenCache</code></li>
-<li><code>PathChildrenCacheEvent</code></li>
-<li><code>PathChildrenCacheListener</code></li>
-<li><code>ChildData</code></li>
-</ul>
-<p><code>PathChildrenCache</code> 是主要类，他的构造方法是</p>
-<pre><code class="java"> public PathChildrenCache(CuratorFramework client, 
-                             String path,
-                             boolean cacheData /*是否缓存node，会缓存在一个 ConcurrentHashMap内*/)</code></pre>
-<p>比较奇特的是，设计上<code>PathChildrenCache</code> 只负责获取数据，也就是只有 <code>list</code>、<code>get</code> 的操作，并没有 <code>set</code>、 <code>remove</code> 操作，需要新增数据之类的都是统一通过 <code>CuratorFramework</code> 构造出的 client 去做对应操作（任何对 zk 节点完成增删的操作都可）。<code>PathChildrenCache</code> 通过对构造函数中填入的 PATH 路径进行监听，这里有两个 Watcher，<code>childrenWatcher</code> 负责监听节点的增加，<code>dataWatcher</code>负责监听节点数据的改动和节点的删除。<br>构造好一个 <code>PathChildrenCache</code> 后需要 <code>start()</code>  后才能正常使用，调用 close()来结束使用。<code>start()</code> 方法中也可以传入 <code>StartMode</code>，用来为初始的 cache 设置暖场方式(warm)：</p>
-<ol>
-<li><code>NORMAL</code>: 初始时为空。</li>
-<li><code>BUILD_INITIAL_CACHE</code>: 在这个方法返回之前调用<code>rebuild()</code>，此方法会将 ZK 的节点 kv 存到本地缓存（<code>ConcurrentHashMap</code>）内。</li>
-<li><code>POST_INITIALIZED_EVENT</code>: 当Cache初始化数据后发送一个<code>PathChildrenCacheEvent.Type#INITIALIZED</code> 事件</li>
-</ol>
-<p>获取当前的 Cache 值可以使用如下方法：</p>
-<pre><code class="java">// PathChildrenCache.class
-
-// 获取所有的缓存数据
-public List&lt;ChildData&gt; getCurrentData() {
-        return ImmutableList.copyOf(Sets.&lt;ChildData&gt;newTreeSet(currentData/*这就是本地缓存 concurrentHashMap*/.values()));
-}
-
-// 获取指定 PATH 下的缓存数据（实际就是用 key）
-public ChildData getCurrentData(String fullPath) {
-        return currentData/*这就是本地缓存 concurrentHashMap*/.get(fullPath);
-}</code></pre>
-<p>可以增加 listener 监听缓存变化：</p>
-<pre><code class="java">/*
-这里的 Listener 就是 PathChildrenCacheListener 的实例，据此新建自己的监听器。
-*/
-cache/*PathChildrenCache 的实例*/.getListenable().addListener(listener);</code></pre>
-<h3 id="Node-Cache"><a href="#Node-Cache" class="headerlink" title="Node Cache"></a>Node Cache</h3><p>Node Cache 顾名思义就是只对一个 Node 节点做监控，涉及到下面的三个类：</p>
-<ul>
-<li>NodeCache</li>
-<li>NodeCacheListener</li>
-<li>ChildData</li>
-</ul>
-<p>Node Cache 在更新数据的时候并不是同步的，也就意味着并发修改数据返回意料之外的结果。使用这个缓存的时候需要自己多加注意。具体的使用方法同 Path Cache，只是 Node Cache 的 <code>getCurrentData()</code> 只会返回一个 ChildData 了。</p>
-<h3 id="Tree-Node"><a href="#Tree-Node" class="headerlink" title="Tree Node"></a>Tree Node</h3><p>Tree Node 既可以监控节点的状态，也监控节点的子节点的状态。涉及到下面四个类：</p>
-<ul>
-<li>TreeCache</li>
-<li>TreeCacheListener</li>
-<li>TreeCacheEvent</li>
-<li>ChildData</li>
-</ul>
-<p>TreeCache 使用 Builder 模式来构造：</p>
-<pre><code class="java">// TreeCache.Builder.class
-private Builder(CuratorFramework client, String path){
-    this.client = checkNotNull(client);
-    this.path = validatePath(path);
-}
-// 构造出来一个 builder 后可以配置
-private boolean cacheData = true;
-private boolean dataIsCompressed = false;
-private ExecutorService executorService = null;
-private int maxDepth = Integer.MAX_VALUE;
-private boolean createParentNodes = false;</code></pre>
-<p>TreeCache 也可以使用 <code>getCurrentChildren(String path)</code> 方法获取 path 下一级的所有的 kv 对。</p>
+        <blockquote>
+<p>基于 <a href="https://github.com/Microsoft/language-server-protocol" target="_blank" rel="noopener">Language Server Protocol</a> 通用协议作为支撑，结合各语言的 server 支持，以 vim 作为 client，完成在 vim 上进行编程语言开发。</p>
+</blockquote>
+<h2 id="vim-lsp-方案"><a href="#vim-lsp-方案" class="headerlink" title="vim-lsp 方案"></a>vim-lsp 方案</h2><p>使用插件 <a href="https://github.com/prabirshrestha/vim-lsp" target="_blank" rel="noopener">vim-lsp</a>，结合 <a href="https://github.com/mattn/vim-lsp-settings" target="_blank" rel="noopener">vim-lsp-settings</a> 作为实现方案。</p>
+<pre><code class="shell">&quot; 使用vim-plug 插件管理工具安装，使用指南 https://vimjc.com/vim-plug.html
+Plug &#39;prabirshrestha/vim-lsp&#39;
+Plug &#39;mattn/vim-lsp-settings&#39;</code></pre>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
@@ -645,12 +583,12 @@ private boolean createParentNodes = false;</code></pre>
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>使用ZK实现 Cache 通过 Curator</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">712</span></p>
+    <p><span class="copy-title">文章标题:</span>vim lsp 安装配置</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">97</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="nickChen">nickChen</a></p>
-    <p><span class="copy-title">发布时间:</span>2018-04-14, 17:03:31</p>
-    <p><span class="copy-title">最后更新:</span>2020-05-08, 15:18:04</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2018/04/14/CuratorFramework-Cache/" title="使用ZK实现 Cache 通过 Curator">http://nickChenyx.github.io/2018/04/14/CuratorFramework-Cache/</a>
+    <p><span class="copy-title">发布时间:</span>2020-11-10, 10:26:08</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-11, 16:49:45</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/11/10/vim-lsp-ready/" title="vim lsp 安装配置">http://nickChenyx.github.io/2020/11/10/vim-lsp-ready/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

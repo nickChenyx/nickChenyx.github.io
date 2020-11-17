@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>使用ZK实现 Cache 通过 Curator | NickChenyx&#39;s Blog</title>
-  <meta name="keywords" content=" Curator , Cache , 缓存 , ZooKeeper ">
-  <meta name="description" content="使用ZK实现 Cache 通过 Curator | NickChenyx&#39;s Blog">
+  <title>记一次端口扫描工具实现 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" rust , coroutine , fiber , quasar , dial ">
+  <meta name="description" content="记一次端口扫描工具实现 | NickChenyx&#39;s Blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -503,9 +503,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-CuratorFramework-Cache" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-dial" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">使用ZK实现 Cache 通过 Curator</h1>
+        <h1 class="article-title">记一次端口扫描工具实现</h1>
     
     <div class="article-meta">
         
@@ -513,32 +513,36 @@
         
         <span class="book">
             
-                <a  data-rel="后端">后端</a>
+                <a  data-rel="后端">后端</a>/
+            
+                <a  data-rel="工具">工具</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a class="color3">Curator</a>
+            <a class="color5">rust</a>
             
-            <a class="color1">Cache</a>
+            <a class="color5">coroutine</a>
             
-            <a class="color3">缓存</a>
+            <a class="color1">fiber</a>
             
-            <a class="color5">ZooKeeper</a>
+            <a class="color2">quasar</a>
+            
+            <a class="color5">dial</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='更新时间: 2020-05-08 15:18:04'>2018-04-14 17:03</time>
+            发布时间 : <time class="date" title='更新时间: 2020-11-17 15:32:10'>2020-11-17 14:33</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:712</span>
+        <span>字数:1k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -557,7 +561,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Curator-Framework-深入了解"><span class="toc-text">Curator Framework 深入了解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZooKeeper-Cache-实现"><span class="toc-text">ZooKeeper Cache 实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Path-Cache"><span class="toc-text">Path Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-Cache"><span class="toc-text">Node Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tree-Node"><span class="toc-text">Tree Node</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口扫描工具"><span class="toc-text">端口扫描工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现方案"><span class="toc-text">实现方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现代码"><span class="toc-text">实现代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-text">遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-Fiber"><span class="toc-text">Java Fiber</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Rust"><span class="toc-text">Rust</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -573,69 +577,59 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Curator-Framework-深入了解"><a href="#Curator-Framework-深入了解" class="headerlink" title="Curator Framework 深入了解"></a>Curator Framework 深入了解</h1><p>本文受到 <a href="http://colobu.com" target="_blank" rel="noopener">colobu</a> 前辈文章的指引，深入了解 Curator Framework 的工作流程，十分感谢 colobu 前辈的博文给予的启发和指导。</p>
-<h2 id="ZooKeeper-Cache-实现"><a href="#ZooKeeper-Cache-实现" class="headerlink" title="ZooKeeper Cache 实现"></a>ZooKeeper Cache 实现</h2><p>利用 ZooKeeper 在集群的节点上缓存数据。<a href="https://github.com/apache/curator/blob/master/curator-examples/src/main/java/cache" target="_blank" rel="noopener">示例代码</a></p>
-<h3 id="Path-Cache"><a href="#Path-Cache" class="headerlink" title="Path Cache"></a>Path Cache</h3><p>Path Cache 使用 ZK 的节点作为 KV 存储系统，在实现上涉及的类：</p>
-<ul>
-<li><code>PathChildrenCache</code></li>
-<li><code>PathChildrenCacheEvent</code></li>
-<li><code>PathChildrenCacheListener</code></li>
-<li><code>ChildData</code></li>
+        <h2 id="端口扫描工具"><a href="#端口扫描工具" class="headerlink" title="端口扫描工具"></a>端口扫描工具</h2><p>工具如其名，主要功能是扫描服务器端口是否开放。常用的方式是扫描服务器(S)在某一段端口(P)范围内，有哪些端口正在被监听。</p>
+<p>如：扫描服务器 127.0.0.1，端口 [80, 2000）段内，查看被监听的端口。</p>
+<h3 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h3><ul>
+<li>和对端服务器端口尝试建立 socket 链接，如果链接成功建立，则表明该端口正在被监听。</li>
+<li>使用多线程方案，加快端口扫描速度</li>
+<li>使用协程方案，降低资源使用，加快扫描速度</li>
 </ul>
-<p><code>PathChildrenCache</code> 是主要类，他的构造方法是</p>
-<pre><code class="java"> public PathChildrenCache(CuratorFramework client, 
-                             String path,
-                             boolean cacheData /*是否缓存node，会缓存在一个 ConcurrentHashMap内*/)</code></pre>
-<p>比较奇特的是，设计上<code>PathChildrenCache</code> 只负责获取数据，也就是只有 <code>list</code>、<code>get</code> 的操作，并没有 <code>set</code>、 <code>remove</code> 操作，需要新增数据之类的都是统一通过 <code>CuratorFramework</code> 构造出的 client 去做对应操作（任何对 zk 节点完成增删的操作都可）。<code>PathChildrenCache</code> 通过对构造函数中填入的 PATH 路径进行监听，这里有两个 Watcher，<code>childrenWatcher</code> 负责监听节点的增加，<code>dataWatcher</code>负责监听节点数据的改动和节点的删除。<br>构造好一个 <code>PathChildrenCache</code> 后需要 <code>start()</code>  后才能正常使用，调用 close()来结束使用。<code>start()</code> 方法中也可以传入 <code>StartMode</code>，用来为初始的 cache 设置暖场方式(warm)：</p>
-<ol>
-<li><code>NORMAL</code>: 初始时为空。</li>
-<li><code>BUILD_INITIAL_CACHE</code>: 在这个方法返回之前调用<code>rebuild()</code>，此方法会将 ZK 的节点 kv 存到本地缓存（<code>ConcurrentHashMap</code>）内。</li>
-<li><code>POST_INITIALIZED_EVENT</code>: 当Cache初始化数据后发送一个<code>PathChildrenCacheEvent.Type#INITIALIZED</code> 事件</li>
-</ol>
-<p>获取当前的 Cache 值可以使用如下方法：</p>
-<pre><code class="java">// PathChildrenCache.class
+<p>以上就是大致的是实现步骤。本次实现了 </p>
+<ul>
+<li>Java 单线程扫描</li>
+<li>Java 多线程扫描</li>
+<li>Java 协程扫描</li>
+<li>Rust 协程扫描</li>
+</ul>
+<p>没错，&gt;..&lt; 实际上这是一次学习 Java Quasar Fiber 和 Rust 过程中的小练习。</p>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><ul>
+<li>Java 实现<a href="https://github.com/nickChenyx/jdial" target="_blank" rel="noopener">🔗</a></li>
+<li>Rust 实现<a href="https://github.com/nickChenyx/rdial" target="_blank" rel="noopener">🔗</a></li>
+</ul>
+<p>实现已放在 github 仓库，感兴趣的可以下载自行运行。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>Java Fiber 和 Rust 的实现过程中都遇到了关于协程使用上的问题，在此记录一下。</p>
+<h4 id="Java-Fiber"><a href="#Java-Fiber" class="headerlink" title="Java Fiber"></a>Java Fiber</h4><p>首先需要在函数上标明 <code>@Suspendable</code>，协程内的阻塞函数需要标记此注解才能让协程正常服务。</p>
+<p>其次协程中使用的阻塞函数，需要有自己的封装实现。线程方式中使用 <code>java.net.Socket#connect</code> 函数是调用的 JDK 原生实现 <code>java.net.PlainSocketImpl#socketConnect</code>。<br>这个实现是阻塞的，此阻塞的实现，会影响阻塞住协程，使得协程的性能无法发挥。<br>Quasar 为此单独提供了 <code>FiberSocketChannel</code> 实现，此实现调用了 <code>co.paralleluniverse.fibers.io.AsyncFiberSocketChannel#connect</code>，<br>底层是异步 IO 实现，使用 <code>Fiber.park</code> 接替了原有的阻塞实现。</p>
+<p>使用过程中可以感受到，使用 Fiber 接替现有的代码，还是有需要改造的部分，无法零成本接入。（<strong>此处如果我有使用不合理的地方，请邮件我改进，谢谢</strong>）</p>
+<h4 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h4><p>Rust 版本实现中，使用了三方依赖 may 作为 coroutine 的实现依赖。出现了同 Java 版本类似的问题。<br>原生的 <code>std::net::TcpStream</code> 依然会阻塞住协程，还是需要使用 may 提供的异步 IO 实现 <code>may::net::TcpStream</code> 才能匹配协程提升性能。</p>
+<p>另外就是 Rust 的 <code>TcpStream::connect_timeout</code> 使用方式不能按照官方提供的文档使用。</p>
+<pre><code class="rust">use std::net::TcpStream;
 
-// 获取所有的缓存数据
-public List&lt;ChildData&gt; getCurrentData() {
-        return ImmutableList.copyOf(Sets.&lt;ChildData&gt;newTreeSet(currentData/*这就是本地缓存 concurrentHashMap*/.values()));
-}
-
-// 获取指定 PATH 下的缓存数据（实际就是用 key）
-public ChildData getCurrentData(String fullPath) {
-        return currentData/*这就是本地缓存 concurrentHashMap*/.get(fullPath);
+if let Ok(stream) = TcpStream::connect(&quot;127.0.0.1:8080&quot;) {
+    println!(&quot;Connected to the server!&quot;);
+} else {
+    println!(&quot;Couldn&#39;t connect to server...&quot;);
 }</code></pre>
-<p>可以增加 listener 监听缓存变化：</p>
-<pre><code class="java">/*
-这里的 Listener 就是 PathChildrenCacheListener 的实例，据此新建自己的监听器。
-*/
-cache/*PathChildrenCache 的实例*/.getListenable().addListener(listener);</code></pre>
-<h3 id="Node-Cache"><a href="#Node-Cache" class="headerlink" title="Node Cache"></a>Node Cache</h3><p>Node Cache 顾名思义就是只对一个 Node 节点做监控，涉及到下面的三个类：</p>
-<ul>
-<li>NodeCache</li>
-<li>NodeCacheListener</li>
-<li>ChildData</li>
-</ul>
-<p>Node Cache 在更新数据的时候并不是同步的，也就意味着并发修改数据返回意料之外的结果。使用这个缓存的时候需要自己多加注意。具体的使用方法同 Path Cache，只是 Node Cache 的 <code>getCurrentData()</code> 只会返回一个 ChildData 了。</p>
-<h3 id="Tree-Node"><a href="#Tree-Node" class="headerlink" title="Tree Node"></a>Tree Node</h3><p>Tree Node 既可以监控节点的状态，也监控节点的子节点的状态。涉及到下面四个类：</p>
-<ul>
-<li>TreeCache</li>
-<li>TreeCacheListener</li>
-<li>TreeCacheEvent</li>
-<li>ChildData</li>
-</ul>
-<p>TreeCache 使用 Builder 模式来构造：</p>
-<pre><code class="java">// TreeCache.Builder.class
-private Builder(CuratorFramework client, String path){
-    this.client = checkNotNull(client);
-    this.path = validatePath(path);
-}
-// 构造出来一个 builder 后可以配置
-private boolean cacheData = true;
-private boolean dataIsCompressed = false;
-private ExecutorService executorService = null;
-private int maxDepth = Integer.MAX_VALUE;
-private boolean createParentNodes = false;</code></pre>
-<p>TreeCache 也可以使用 <code>getCurrentChildren(String path)</code> 方法获取 path 下一级的所有的 kv 对。</p>
+<p>按照此方法使用 <code>TcpStream::connect_timeout</code>，会导致 if 判断提前进入 else 逻辑，造成逻辑异常。<br>必须将链接建立的语句提前，才能逻辑正常。</p>
+<pre><code class="rust">// 正确实现
+let stream = TcpStream::connect_timeout(&amp;addrs[0], timeout);
+if stream.is_ok() {
+    stream.unwrap().shutdown(Shutdown::Both).expect(&quot;shutdown tcp stream fail&quot;);
+    return true;
+} else {
+    return false;
+}</code></pre>
+<p><strong>诡异的问题</strong></p>
+<p>实现 Rust 版本的测试结果中，出现了诡异的问题。问题描述如下：</p>
+<pre><code class="txt">使用 rdial --start-port 80 --end-port 9000 --hostname 127.0.0.1 --timeout 200 执行时，
+结果返回了 [1080, 4198] 两个接口，实际上 6394 接口也是在被监听，但没有被扫描出来。
+修改使用 rdial --start-port 6000 --end-port 9000 --hostname 127.0.0.1 --timeout 200 执行时，
+此时结果返回了 6394 接口。
+</code></pre>
+<p>经过 debug 确认了所有端口都有的的确确被扫描到，并没有漏掉 6394 端口。</p>
+<p>继续尝试增加 timeout 超时时间，发现还是无法扫描到 6394 端口，但是有个特殊现象——6394 端口在建立链接语句执行后，立马返回了“close”日志，并没有经过设置好的等待时间。</p>
+<p>最后发现问题是在操作系统限制的 fd 上，使用 <code>ulimit -n</code> 发现此时设置为 4864，可以看到我们的扫描程序第一次执行的确扫描到了 4198 这个接口监听，而忽略了 6394 这个接口。</p>
+<p>答案呼之欲出，执行 <code>ulimit -n 10000</code> 将 fd 限制提升到 10000 之后再次执行，此时返回结果 <code>[1080, 4198, 6394]</code>，问题解决。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
@@ -645,12 +639,12 @@ private boolean createParentNodes = false;</code></pre>
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>使用ZK实现 Cache 通过 Curator</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">712</span></p>
+    <p><span class="copy-title">文章标题:</span>记一次端口扫描工具实现</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="nickChen">nickChen</a></p>
-    <p><span class="copy-title">发布时间:</span>2018-04-14, 17:03:31</p>
-    <p><span class="copy-title">最后更新:</span>2020-05-08, 15:18:04</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2018/04/14/CuratorFramework-Cache/" title="使用ZK实现 Cache 通过 Curator">http://nickChenyx.github.io/2018/04/14/CuratorFramework-Cache/</a>
+    <p><span class="copy-title">发布时间:</span>2020-11-17, 14:33:02</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-17, 15:32:10</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/11/17/dial/" title="记一次端口扫描工具实现">http://nickChenyx.github.io/2020/11/17/dial/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
