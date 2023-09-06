@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>记一次端口扫描工具实现 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" rust , coroutine , fiber , quasar , dial ">
+  <meta name="description" content="记一次端口扫描工具实现 | NickChenyx&#39;s Blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Create_Rubbish">
+<meta property="og:url" content="http://nickchenyx.github.io/about/index.html">
+<meta property="og:site_name" content="NickChenyx&#39;s Blog">
+<meta property="og:description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-04-18T03:16:24.000Z">
+<meta property="article:modified_time" content="2023-05-08T15:27:10.763Z">
+<meta property="article:author" content="nickChen">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="NickChenyx's Blog" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>nickChen</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/nickchenyx"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:nickchenyx@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(33)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="工具">
+                        
+                        工具
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="后端">
+                        
+                        后端
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="数据库">
+                        
+                        数据库
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="管理">
+                        
+                        管理
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="前端">
+                        
+                        前端
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="书籍">
+                        
+                        书籍
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="智能家居">
+                        
+                        智能家居
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Golang">
+                        
+                        Golang
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Linux">
+                        
+                        Linux
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="vim">
+                        
+                        vim
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  site_url"
+               
+               href="/about">About</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="33">
+<input type="hidden" id="yelog_site_word_count" value="29.8k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>单元测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>灯</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>泛型</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>分布式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>缓存</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>开关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>零线</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>使用手册</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件处理</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>问题排查</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>选举</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>源码</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>运维</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>book</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cache</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>coroutine</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Curator</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>curl</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dial</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Distributed</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dsq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fiber</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang 开源系列</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JavaScript</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JDK</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jsonp</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JVM</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Leader Election</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Map</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>MySQL</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pattern</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>pragmatic</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>quasar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>rust</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scala</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SPI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>UnitTest</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vim</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ZooKeeper</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All 智能家居 "
+           href="/2023/09/06/%E7%81%AF%E5%BC%80%E5%85%B3%E8%A1%A5%E5%85%85%E9%9B%B6%E7%BA%BF/"
+           data-tag="开关,零线,灯"
+           data-author="" >
+            <span class="post-title" title="灯开关补充零线">灯开关补充零线</span>
+            <span class="post-date" title="2023-09-06 20:11:31">2023/09/06</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/curl_usage/"
+           data-tag="curl"
+           data-author="" >
+            <span class="post-title" title="curl 实战">curl 实战</span>
+            <span class="post-date" title="2022-10-14 22:19:41">2022/10/14</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/linux_show_proc_cmdline/"
+           data-tag="Linux"
+           data-author="" >
+            <span class="post-title" title="Linux 查看进程启动命令和环境变量">Linux 查看进程启动命令和环境变量</span>
+            <span class="post-date" title="2022-10-14 22:11:43">2022/10/14</span>
+        </a>
+        
+        <a  class="All 管理 "
+           href="/2022/07/24/scrum/"
+           data-tag="scrum"
+           data-author="" >
+            <span class="post-title" title="认识 Scrum 和产品开发流程">认识 Scrum 和产品开发流程</span>
+            <span class="post-date" title="2022-07-24 16:00:06">2022/07/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/23/golang-map-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 map">漫谈 Golang 之 map</span>
+            <span class="post-date" title="2022-07-23 20:59:01">2022/07/23</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/19/golang-slice-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 slice">漫谈 Golang 之 slice</span>
+            <span class="post-date" title="2022-07-19 22:39:40">2022/07/19</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/07/golang_nil_pointer_panic/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 空指针 panic 场景">漫谈 Golang 空指针 panic 场景</span>
+            <span class="post-date" title="2022-07-07 22:23:14">2022/07/07</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-retry-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 retry-go 使用指南">Golang 开源之 retry-go 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:59:22">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-tparse-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 tparse 使用指南">Golang 开源之 tparse 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:14:13">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/02/golang-init-panic-mock/"
+           data-tag="Golang,单元测试,UnitTest"
+           data-author="" >
+            <span class="post-title" title="Golang 单元测试之绕过 init panic">Golang 单元测试之绕过 init panic</span>
+            <span class="post-date" title="2022-06-02 14:59:48">2022/06/02</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/24/golang-semgroup-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 semgroup 使用指南">Golang 开源之 semgroup 使用指南</span>
+            <span class="post-date" title="2022-05-24 11:32:21">2022/05/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/10/golang-try-usage/"
+           data-tag="Golang,Golang 开源系列,泛型"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 try 使用指南">Golang 开源之 try 使用指南</span>
+            <span class="post-date" title="2022-05-10 20:20:44">2022/05/10</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2022/03/11/local-file-process/"
+           data-tag="jq,dsq,文件处理"
+           data-author="" >
+            <span class="post-title" title="dsq 和 jq 操作记录">dsq 和 jq 操作记录</span>
+            <span class="post-date" title="2022-03-11 20:12:27">2022/03/11</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2020/12/28/go-pattern-options/"
+           data-tag="Golang,Pattern,设计模式"
+           data-author="" >
+            <span class="post-title" title="Go 设计模式之 Options-Pattern">Go 设计模式之 Options-Pattern</span>
+            <span class="post-date" title="2020-12-28 10:36:01">2020/12/28</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2020/12/25/java-docker-setup/"
+           data-tag="Java,Docker,JVM"
+           data-author="" >
+            <span class="post-title" title="Docker 中的 Java 运行时内存限制配置">Docker 中的 Java 运行时内存限制配置</span>
+            <span class="post-date" title="2020-12-25 10:14:34">2020/12/25</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/11/17/dial/"
+           data-tag="rust,coroutine,fiber,quasar,dial"
+           data-author="" >
+            <span class="post-title" title="记一次端口扫描工具实现">记一次端口扫描工具实现</span>
+            <span class="post-date" title="2020-11-17 14:33:02">2020/11/17</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/10/vim-lsp-ready/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim lsp 安装配置">vim lsp 安装配置</span>
+            <span class="post-date" title="2020-11-10 10:26:08">2020/11/10</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/01/vim-learning/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="Vim 学习笔记">Vim 学习笔记</span>
+            <span class="post-date" title="2020-11-01 17:01:00">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/11/01/linux-load-high/"
+           data-tag="linux,运维,问题排查"
+           data-author="" >
+            <span class="post-title" title="Linux 服务器负载(load)过高排查">Linux 服务器负载(load)过高排查</span>
+            <span class="post-date" title="2020-11-01 14:10:54">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/08/17/linux-devops/"
+           data-tag="linux,运维"
+           data-author="" >
+            <span class="post-title" title="Linux 开发运维操作记录">Linux 开发运维操作记录</span>
+            <span class="post-date" title="2020-08-17 13:22:51">2020/08/17</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/08/01/git-usage/"
+           data-tag="git,使用手册"
+           data-author="" >
+            <span class="post-title" title="git 使用手册">git 使用手册</span>
+            <span class="post-date" title="2020-08-01 10:57:56">2020/08/01</span>
+        </a>
+        
+        <a  class="All 书籍 "
+           href="/2020/07/19/ThePragmaticProgrammer/"
+           data-tag="book,pragmatic"
+           data-author="" >
+            <span class="post-title" title="程序员修炼之道(The Pragmatic Programmer)">程序员修炼之道(The Pragmatic Programmer)</span>
+            <span class="post-date" title="2020-07-19 11:20:58">2020/07/19</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2020/05/08/redis-devops/"
+           data-tag="运维,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 线上运维操作">Redis 线上运维操作</span>
+            <span class="post-date" title="2020-05-08 16:08:14">2020/05/08</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2019/03/27/redis-implements/"
+           data-tag="Cache,缓存,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 实现 (待补全)">Redis 实现 (待补全)</span>
+            <span class="post-date" title="2019-03-27 14:56:39">2019/03/27</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2018/05/09/screen-manual/"
+           data-tag="运维,Linux"
+           data-author="" >
+            <span class="post-title" title="Screen 使用指南">Screen 使用指南</span>
+            <span class="post-date" title="2018-05-09 21:48:29">2018/05/09</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2018/04/18/mysql-cmd/"
+           data-tag="MySQL"
+           data-author="" >
+            <span class="post-title" title="MySQL 总集">MySQL 总集</span>
+            <span class="post-date" title="2018-04-18 11:19:10">2018/04/18</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/jdk1-7-concurrenthashmap-summary/"
+           data-tag="Java,JDK,源码,Map"
+           data-author="" >
+            <span class="post-title" title="JDK1.7 ConcurrentHashMap 解析">JDK1.7 ConcurrentHashMap 解析</span>
+            <span class="post-date" title="2018-04-17 16:04:46">2018/04/17</span>
+        </a>
+        
+        <a  class="All 前端 "
+           href="/2018/04/17/jsonp-essentials/"
+           data-tag="JavaScript,jsonp"
+           data-author="" >
+            <span class="post-title" title="JSONP 详解">JSONP 详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/spi-essentials-md/"
+           data-tag="Java,SPI"
+           data-author="" >
+            <span class="post-title" title="SPI 机制详解">SPI 机制详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/scala-for-the-impatient/"
+           data-tag="Scala"
+           data-author="" >
+            <span class="post-title" title="Scala 学习总结">Scala 学习总结</span>
+            <span class="post-date" title="2018-04-17 16:04:08">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/CuratorFramework-leader/"
+           data-tag="Curator,ZooKeeper,Leader Election,选举"
+           data-author="" >
+            <span class="post-title" title="实现Leader选举通过 Curator">实现Leader选举通过 Curator</span>
+            <span class="post-date" title="2018-04-17 14:42:41">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/14/CuratorFramework-Cache/"
+           data-tag="Curator,Cache,缓存,ZooKeeper"
+           data-author="" >
+            <span class="post-title" title="使用ZK实现 Cache 通过 Curator">使用ZK实现 Cache 通过 Curator</span>
+            <span class="post-date" title="2018-04-14 17:03:31">2018/04/14</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/12/CuratorFramework-DistributedQueue/"
+           data-tag="Curator,ZooKeeper,Distributed,分布式"
+           data-author="" >
+            <span class="post-title" title="实现分布式队列通过 Curator">实现分布式队列通过 Curator</span>
+            <span class="post-date" title="2018-04-12 11:33:29">2018/04/12</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-dial" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">记一次端口扫描工具实现</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="工具">工具</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">rust</a>
+            
+            <a class="color5">coroutine</a>
+            
+            <a class="color1">fiber</a>
+            
+            <a class="color2">quasar</a>
+            
+            <a class="color5">dial</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2023-05-08 23:27:10'>2020-11-17 14:33</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:1k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7"><span class="toc-text">端口扫描工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-text">实现方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="toc-text">实现代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-Fiber"><span class="toc-text">Java Fiber</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Rust"><span class="toc-text">Rust</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="端口扫描工具"><a href="#端口扫描工具" class="headerlink" title="端口扫描工具"></a>端口扫描工具</h2><p>工具如其名，主要功能是扫描服务器端口是否开放。常用的方式是扫描服务器(S)在某一段端口(P)范围内，有哪些端口正在被监听。</p>
+<p>如：扫描服务器 127.0.0.1，端口 [80, 2000）段内，查看被监听的端口。</p>
+<h3 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h3><ul>
+<li>和对端服务器端口尝试建立 socket 链接，如果链接成功建立，则表明该端口正在被监听。</li>
+<li>使用多线程方案，加快端口扫描速度</li>
+<li>使用协程方案，降低资源使用，加快扫描速度</li>
+</ul>
+<p>以上就是大致的是实现步骤。本次实现了 </p>
+<ul>
+<li>Java 单线程扫描</li>
+<li>Java 多线程扫描</li>
+<li>Java 协程扫描</li>
+<li>Rust 协程扫描</li>
+</ul>
+<p>没错，&gt;..&lt; 实际上这是一次学习 Java Quasar Fiber 和 Rust 过程中的小练习。</p>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><ul>
+<li>Java 实现<a target="_blank" rel="noopener" href="https://github.com/nickChenyx/jdial">🔗</a></li>
+<li>Rust 实现<a target="_blank" rel="noopener" href="https://github.com/nickChenyx/rdial">🔗</a></li>
+</ul>
+<p>实现已放在 github 仓库，感兴趣的可以下载自行运行。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>Java Fiber 和 Rust 的实现过程中都遇到了关于协程使用上的问题，在此记录一下。</p>
+<h4 id="Java-Fiber"><a href="#Java-Fiber" class="headerlink" title="Java Fiber"></a>Java Fiber</h4><p>首先需要在函数上标明 <code>@Suspendable</code>，协程内的阻塞函数需要标记此注解才能让协程正常服务。</p>
+<p>其次协程中使用的阻塞函数，需要有自己的封装实现。线程方式中使用 <code>java.net.Socket#connect</code> 函数是调用的 JDK 原生实现 <code>java.net.PlainSocketImpl#socketConnect</code>。<br>这个实现是阻塞的，此阻塞的实现，会影响阻塞住协程，使得协程的性能无法发挥。<br>Quasar 为此单独提供了 <code>FiberSocketChannel</code> 实现，此实现调用了 <code>co.paralleluniverse.fibers.io.AsyncFiberSocketChannel#connect</code>，<br>底层是异步 IO 实现，使用 <code>Fiber.park</code> 接替了原有的阻塞实现。</p>
+<p>使用过程中可以感受到，使用 Fiber 接替现有的代码，还是有需要改造的部分，无法零成本接入。（<strong>此处如果我有使用不合理的地方，请邮件我改进，谢谢</strong>）</p>
+<h4 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h4><p>Rust 版本实现中，使用了三方依赖 may 作为 coroutine 的实现依赖。出现了同 Java 版本类似的问题。<br>原生的 <code>std::net::TcpStream</code> 依然会阻塞住协程，还是需要使用 may 提供的异步 IO 实现 <code>may::net::TcpStream</code> 才能匹配协程提升性能。</p>
+<p>另外就是 Rust 的 <code>TcpStream::connect_timeout</code> 使用方式不能按照官方提供的文档使用。</p>
+<pre><code class="rust">use std::net::TcpStream;
+
+if let Ok(stream) = TcpStream::connect(&quot;127.0.0.1:8080&quot;) &#123;
+    println!(&quot;Connected to the server!&quot;);
+&#125; else &#123;
+    println!(&quot;Couldn&#39;t connect to server...&quot;);
+&#125;</code></pre>
+<p>按照此方法使用 <code>TcpStream::connect_timeout</code>，会导致 if 判断提前进入 else 逻辑，造成逻辑异常。<br>必须将链接建立的语句提前，才能逻辑正常。</p>
+<pre><code class="rust">// 正确实现
+let stream = TcpStream::connect_timeout(&amp;addrs[0], timeout);
+if stream.is_ok() &#123;
+    stream.unwrap().shutdown(Shutdown::Both).expect(&quot;shutdown tcp stream fail&quot;);
+    return true;
+&#125; else &#123;
+    return false;
+&#125;</code></pre>
+<p><strong>诡异的问题</strong></p>
+<p>实现 Rust 版本的测试结果中，出现了诡异的问题。问题描述如下：</p>
+<pre><code class="txt">使用 rdial --start-port 80 --end-port 9000 --hostname 127.0.0.1 --timeout 200 执行时，
+结果返回了 [1080, 4198] 两个接口，实际上 6394 接口也是在被监听，但没有被扫描出来。
+修改使用 rdial --start-port 6000 --end-port 9000 --hostname 127.0.0.1 --timeout 200 执行时，
+此时结果返回了 6394 接口。
+</code></pre>
+<p>经过 debug 确认了所有端口都有的的确确被扫描到，并没有漏掉 6394 端口。</p>
+<p>继续尝试增加 timeout 超时时间，发现还是无法扫描到 6394 端口，但是有个特殊现象——6394 端口在建立链接语句执行后，立马返回了“close”日志，并没有经过设置好的等待时间。</p>
+<p>最后发现问题是在操作系统限制的 fd 上，使用 <code>ulimit -n</code> 发现此时设置为 4864，可以看到我们的扫描程序第一次执行的确扫描到了 4198 这个接口监听，而忽略了 6394 这个接口。</p>
+<p>答案呼之欲出，执行 <code>ulimit -n 10000</code> 将 fd 限制提升到 10000 之后再次执行，此时返回结果 <code>[1080, 4198, 6394]</code>，问题解决。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>记一次端口扫描工具实现</p>
+    <p><span class="copy-title">Count:</span><span class="post-count">1k</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2020-11-17, 14:33:02</p>
+    <p><span class="copy-title">Updated At:</span>2023-05-08, 23:27:10</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2020/11/17/dial/" title="记一次端口扫描工具实现">http://nickchenyx.github.io/2020/11/17/dial/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">&#39;Attribution-non-commercial-shared in the same way 4.0&#39;</a> Reprint please keep the original link and author.
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2018-2022 nickChen
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().trim().split('\n').length, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    #post .pjax article .article-entry>ol, #post .pjax article .article-entry>ul, #post .pjax article>ol, #post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    #post .pjax article .article-entry li>ol, #post .pjax article .article-entry li>ul,#post .pjax article li>ol, #post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    #post .pjax article .article-entry>ol>li, #post .pjax article .article-entry>ul>li,#post .pjax article>ol>li, #post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    #post .pjax article .article-entry li>ol>li, #post .pjax article .article-entry li>ul>li,#post .pjax article li>ol>li, #post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    #post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+
+    
+    #post .pjax article :not(pre) > code {
+        color: #24292e;
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        background-color: rgba(27,31,35,.05);
+        border-radius: 3px;
+        font-size: 85%;
+        margin: 0;
+        padding: .2em .4em;
+    }
+    
+</style>
+
+
+
+
+
+
+
+</html>

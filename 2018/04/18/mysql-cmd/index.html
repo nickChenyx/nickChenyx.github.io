@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MySQL 总集 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" MySQL ">
+  <meta name="description" content="MySQL 总集 | NickChenyx&#39;s Blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Create_Rubbish">
+<meta property="og:url" content="http://nickchenyx.github.io/about/index.html">
+<meta property="og:site_name" content="NickChenyx&#39;s Blog">
+<meta property="og:description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-04-18T03:16:24.000Z">
+<meta property="article:modified_time" content="2023-05-08T15:27:10.763Z">
+<meta property="article:author" content="nickChen">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="NickChenyx's Blog" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>nickChen</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/nickchenyx"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:nickchenyx@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(33)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="工具">
+                        
+                        工具
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="后端">
+                        
+                        后端
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="数据库">
+                        
+                        数据库
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="管理">
+                        
+                        管理
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="前端">
+                        
+                        前端
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="书籍">
+                        
+                        书籍
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="智能家居">
+                        
+                        智能家居
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Golang">
+                        
+                        Golang
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Linux">
+                        
+                        Linux
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="vim">
+                        
+                        vim
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  site_url"
+               
+               href="/about">About</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="33">
+<input type="hidden" id="yelog_site_word_count" value="29.8k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>单元测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>灯</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>泛型</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>分布式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>缓存</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>开关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>零线</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>使用手册</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件处理</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>问题排查</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>选举</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>源码</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>运维</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>book</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cache</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>coroutine</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Curator</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>curl</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dial</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Distributed</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dsq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fiber</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang 开源系列</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JavaScript</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JDK</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jsonp</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JVM</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Leader Election</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Map</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>MySQL</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pattern</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>pragmatic</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>quasar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>rust</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scala</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SPI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>UnitTest</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vim</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ZooKeeper</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All 智能家居 "
+           href="/2023/09/06/%E7%81%AF%E5%BC%80%E5%85%B3%E8%A1%A5%E5%85%85%E9%9B%B6%E7%BA%BF/"
+           data-tag="开关,零线,灯"
+           data-author="" >
+            <span class="post-title" title="灯开关补充零线">灯开关补充零线</span>
+            <span class="post-date" title="2023-09-06 20:11:31">2023/09/06</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/curl_usage/"
+           data-tag="curl"
+           data-author="" >
+            <span class="post-title" title="curl 实战">curl 实战</span>
+            <span class="post-date" title="2022-10-14 22:19:41">2022/10/14</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/linux_show_proc_cmdline/"
+           data-tag="Linux"
+           data-author="" >
+            <span class="post-title" title="Linux 查看进程启动命令和环境变量">Linux 查看进程启动命令和环境变量</span>
+            <span class="post-date" title="2022-10-14 22:11:43">2022/10/14</span>
+        </a>
+        
+        <a  class="All 管理 "
+           href="/2022/07/24/scrum/"
+           data-tag="scrum"
+           data-author="" >
+            <span class="post-title" title="认识 Scrum 和产品开发流程">认识 Scrum 和产品开发流程</span>
+            <span class="post-date" title="2022-07-24 16:00:06">2022/07/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/23/golang-map-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 map">漫谈 Golang 之 map</span>
+            <span class="post-date" title="2022-07-23 20:59:01">2022/07/23</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/19/golang-slice-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 slice">漫谈 Golang 之 slice</span>
+            <span class="post-date" title="2022-07-19 22:39:40">2022/07/19</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/07/golang_nil_pointer_panic/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 空指针 panic 场景">漫谈 Golang 空指针 panic 场景</span>
+            <span class="post-date" title="2022-07-07 22:23:14">2022/07/07</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-retry-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 retry-go 使用指南">Golang 开源之 retry-go 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:59:22">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-tparse-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 tparse 使用指南">Golang 开源之 tparse 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:14:13">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/02/golang-init-panic-mock/"
+           data-tag="Golang,单元测试,UnitTest"
+           data-author="" >
+            <span class="post-title" title="Golang 单元测试之绕过 init panic">Golang 单元测试之绕过 init panic</span>
+            <span class="post-date" title="2022-06-02 14:59:48">2022/06/02</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/24/golang-semgroup-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 semgroup 使用指南">Golang 开源之 semgroup 使用指南</span>
+            <span class="post-date" title="2022-05-24 11:32:21">2022/05/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/10/golang-try-usage/"
+           data-tag="Golang,Golang 开源系列,泛型"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 try 使用指南">Golang 开源之 try 使用指南</span>
+            <span class="post-date" title="2022-05-10 20:20:44">2022/05/10</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2022/03/11/local-file-process/"
+           data-tag="jq,dsq,文件处理"
+           data-author="" >
+            <span class="post-title" title="dsq 和 jq 操作记录">dsq 和 jq 操作记录</span>
+            <span class="post-date" title="2022-03-11 20:12:27">2022/03/11</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2020/12/28/go-pattern-options/"
+           data-tag="Golang,Pattern,设计模式"
+           data-author="" >
+            <span class="post-title" title="Go 设计模式之 Options-Pattern">Go 设计模式之 Options-Pattern</span>
+            <span class="post-date" title="2020-12-28 10:36:01">2020/12/28</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2020/12/25/java-docker-setup/"
+           data-tag="Java,Docker,JVM"
+           data-author="" >
+            <span class="post-title" title="Docker 中的 Java 运行时内存限制配置">Docker 中的 Java 运行时内存限制配置</span>
+            <span class="post-date" title="2020-12-25 10:14:34">2020/12/25</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/11/17/dial/"
+           data-tag="rust,coroutine,fiber,quasar,dial"
+           data-author="" >
+            <span class="post-title" title="记一次端口扫描工具实现">记一次端口扫描工具实现</span>
+            <span class="post-date" title="2020-11-17 14:33:02">2020/11/17</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/10/vim-lsp-ready/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim lsp 安装配置">vim lsp 安装配置</span>
+            <span class="post-date" title="2020-11-10 10:26:08">2020/11/10</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/01/vim-learning/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="Vim 学习笔记">Vim 学习笔记</span>
+            <span class="post-date" title="2020-11-01 17:01:00">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/11/01/linux-load-high/"
+           data-tag="linux,运维,问题排查"
+           data-author="" >
+            <span class="post-title" title="Linux 服务器负载(load)过高排查">Linux 服务器负载(load)过高排查</span>
+            <span class="post-date" title="2020-11-01 14:10:54">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/08/17/linux-devops/"
+           data-tag="linux,运维"
+           data-author="" >
+            <span class="post-title" title="Linux 开发运维操作记录">Linux 开发运维操作记录</span>
+            <span class="post-date" title="2020-08-17 13:22:51">2020/08/17</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/08/01/git-usage/"
+           data-tag="git,使用手册"
+           data-author="" >
+            <span class="post-title" title="git 使用手册">git 使用手册</span>
+            <span class="post-date" title="2020-08-01 10:57:56">2020/08/01</span>
+        </a>
+        
+        <a  class="All 书籍 "
+           href="/2020/07/19/ThePragmaticProgrammer/"
+           data-tag="book,pragmatic"
+           data-author="" >
+            <span class="post-title" title="程序员修炼之道(The Pragmatic Programmer)">程序员修炼之道(The Pragmatic Programmer)</span>
+            <span class="post-date" title="2020-07-19 11:20:58">2020/07/19</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2020/05/08/redis-devops/"
+           data-tag="运维,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 线上运维操作">Redis 线上运维操作</span>
+            <span class="post-date" title="2020-05-08 16:08:14">2020/05/08</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2019/03/27/redis-implements/"
+           data-tag="Cache,缓存,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 实现 (待补全)">Redis 实现 (待补全)</span>
+            <span class="post-date" title="2019-03-27 14:56:39">2019/03/27</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2018/05/09/screen-manual/"
+           data-tag="运维,Linux"
+           data-author="" >
+            <span class="post-title" title="Screen 使用指南">Screen 使用指南</span>
+            <span class="post-date" title="2018-05-09 21:48:29">2018/05/09</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2018/04/18/mysql-cmd/"
+           data-tag="MySQL"
+           data-author="" >
+            <span class="post-title" title="MySQL 总集">MySQL 总集</span>
+            <span class="post-date" title="2018-04-18 11:19:10">2018/04/18</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/jdk1-7-concurrenthashmap-summary/"
+           data-tag="Java,JDK,源码,Map"
+           data-author="" >
+            <span class="post-title" title="JDK1.7 ConcurrentHashMap 解析">JDK1.7 ConcurrentHashMap 解析</span>
+            <span class="post-date" title="2018-04-17 16:04:46">2018/04/17</span>
+        </a>
+        
+        <a  class="All 前端 "
+           href="/2018/04/17/jsonp-essentials/"
+           data-tag="JavaScript,jsonp"
+           data-author="" >
+            <span class="post-title" title="JSONP 详解">JSONP 详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/spi-essentials-md/"
+           data-tag="Java,SPI"
+           data-author="" >
+            <span class="post-title" title="SPI 机制详解">SPI 机制详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/scala-for-the-impatient/"
+           data-tag="Scala"
+           data-author="" >
+            <span class="post-title" title="Scala 学习总结">Scala 学习总结</span>
+            <span class="post-date" title="2018-04-17 16:04:08">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/CuratorFramework-leader/"
+           data-tag="Curator,ZooKeeper,Leader Election,选举"
+           data-author="" >
+            <span class="post-title" title="实现Leader选举通过 Curator">实现Leader选举通过 Curator</span>
+            <span class="post-date" title="2018-04-17 14:42:41">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/14/CuratorFramework-Cache/"
+           data-tag="Curator,Cache,缓存,ZooKeeper"
+           data-author="" >
+            <span class="post-title" title="使用ZK实现 Cache 通过 Curator">使用ZK实现 Cache 通过 Curator</span>
+            <span class="post-date" title="2018-04-14 17:03:31">2018/04/14</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/12/CuratorFramework-DistributedQueue/"
+           data-tag="Curator,ZooKeeper,Distributed,分布式"
+           data-author="" >
+            <span class="post-title" title="实现分布式队列通过 Curator">实现分布式队列通过 Curator</span>
+            <span class="post-date" title="2018-04-12 11:33:29">2018/04/12</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-mysql-cmd" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">MySQL 总集</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="数据库">数据库</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">MySQL</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2023-05-08 23:27:10'>2018-04-18 11:19</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:2.1k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E7%BC%93%E5%AD%98%EF%BC%9A"><span class="toc-text">MySQL 缓存：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6"><span class="toc-text">超时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E8%BF%9E%E6%8E%A5%E7%9A%84%E4%BC%98%E5%8C%96"><span class="toc-text">MySQL 连接的优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E4%BC%98%E5%8C%96"><span class="toc-text">缓存的优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96"><span class="toc-text">SQL语句优化</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>show status</code> 或 <code>show session status</code></p>
+<p>⬆查看当前MySQL服务器连接的会话状态变量信息；</p>
+<p><code>show global status</code></p>
+<p>⬆查看全局状态变量；</p>
+<p><code>flush status</code></p>
+<p>⬆初始化当前会话状态变量</p>
+<p><code>show variables</code></p>
+<p>⬆查看全局系统变量、会话系统变量和静态变量等；</p>
+<hr>
+<h3 id="MySQL-缓存："><a href="#MySQL-缓存：" class="headerlink" title="MySQL 缓存："></a>MySQL 缓存：</h3><p><strong>按缓存读写功能不同划分</strong></p>
+<ul>
+<li>Cache 缓存 （加速读）</li>
+<li>Buffer 缓存 （缓冲写）</li>
+</ul>
+<p><strong>按生存周期长短划分</strong></p>
+<ul>
+<li>全局缓存 例如二进制日志 binlog_cache_size</li>
+<li>会话缓存 例如结果集缓存 net_buffer_size</li>
+<li>临时缓存 例如select语句中包含的派生表生成的内存临时表</li>
+</ul>
+<p><strong>按存储引擎实现划分</strong></p>
+<ul>
+<li>MySQL 缓存</li>
+<li>MyISAM 缓存</li>
+<li>InnoDB 缓存</li>
+</ul>
+<hr>
+<h3 id="超时"><a href="#超时" class="headerlink" title="超时"></a>超时</h3><p><code>show variables like &#39;%timeout%&#39;</code></p>
+<p>⬆查看超时相关变量配置</p>
+<p><strong>连接超时</strong></p>
+<ul>
+<li>connect_timeout 建立连接超时</li>
+<li>wait_timeout 保持睡眠状态太长，超时</li>
+<li>interactive_timeout 交互模式下（cmd）保持睡眠状态太长，超时</li>
+<li>net_write_timeout 默认60秒 写超时</li>
+<li>net_read_timeout 默认30秒 读超时</li>
+</ul>
+<p><strong>InnoDB 锁等待超时</strong></p>
+<ul>
+<li>innodb_lock_wait_timeout 默认50秒 设置行级锁锁等待时间，超时触发导致行级锁锁等待的SQL语句回滚（若希望整个事务回滚，启动MySQL时开启 innodb_rollback_on_timeout 参数）</li>
+<li>innodb_rollback_on_timeout 默认OFF 回滚上一条导致行级锁锁等待的SQL语句， 设置为ON则回滚整个事务</li>
+</ul>
+<p><strong>元数据锁超时 metadata locks</strong></p>
+<ul>
+<li>lock_wait_timeout 默认值1年 31536000 取值范围[1, 31536000]</li>
+</ul>
+<p><strong>复制连接超时</strong></p>
+<ul>
+<li>slave_net_timeout 默认3600秒 MySQL主从复制时，从拉取主二进制日志失败后，等待该设置的时间后，再重连主获取数据。 设置为30秒，减少网络问题导致的数据同步延迟。</li>
+</ul>
+<p><strong>MyISAM 表的延迟插入超时</strong></p>
+<ul>
+<li>delayed_insert_timeout</li>
+</ul>
+<hr>
+<h3 id="MySQL-连接的优化"><a href="#MySQL-连接的优化" class="headerlink" title="MySQL 连接的优化"></a>MySQL 连接的优化</h3><p><strong>连接参数</strong></p>
+<p><code>show variables like &#39;%connect%&#39;</code></p>
+<p>⬆查询MySQL服务的连接参数信息</p>
+<ul>
+<li>max_connections 设置最大的并发连接数，拥有SUPER权限的用户可以在连接数达到最大时依然能建立链接。</li>
+<li>max_user_connections 设置指定的MySQL账号的最大并发连接数，设置为0表示不限制</li>
+<li>max_connect_errors 某主机连接到MySQL服务器失败次数过多，超过该值，服务器会拒绝该主机的连接，除非执行 flush hosts</li>
+<li>init_connect 客户机连接服务器时，会先执行 init_connect 参数内设置的SQL语句。SUPER权限的用户连接不会执行这些SQL语句</li>
+</ul>
+<p><strong>连接状态</strong></p>
+<p><code>show status like &#39;%connections%&#39;</code></p>
+<p>⬆查看当前实例连接MySQL服务的状态信息</p>
+<ul>
+<li>Connections Mysq服务从启动到现在尝试连接的请求数（包括不能成功建立的连接请求）</li>
+<li>max_used_connections 表示MySQL服务从启动到现在，同一时刻并行连接的最大值。如果 max_used_connections 和 max_connections 相同， 则说明 max_connections 设置过低或者服务器负载上限。</li>
+<li>connection_errors_max_connections 由于MySQL服务器已经达到 max_connections 的上限，连接被拒绝的次数。如果该值过大，则说明 max_connections 设置过低或者服务器负载上限。</li>
+</ul>
+<p><strong>连接线程参数</strong></p>
+<p><code>show variables like &#39;thread%&#39;</code></p>
+<p>⬆查看MySQL连接线程参数信息</p>
+<ul>
+<li>thread_cache_size 表示当前可用的MySQL连接池大小</li>
+<li>thread_concurrency 针对Solaris系统设置为CPU核心数的2倍</li>
+<li>thread_handling 默认为 one-thread-per-connection，值为 no-threads 只能提供一个连接线程</li>
+<li>thread_stack 默认 192KB， 配置连接线程分配的内存大小用于保存每个连接线程的信息</li>
+</ul>
+<p><strong>连接状态信息</strong></p>
+<p><code>show status like &#39;Thread%&#39;</code></p>
+<p>⬆查看连接线程的状态信息</p>
+<ul>
+<li>Threads_cached 当前线程池的线程数</li>
+<li>Threads_connected 当前连接数</li>
+<li>Threads_created 连接线程创建数，该值过大会扩充连接池大小</li>
+<li>Threads_running 不在睡眠状态的连接线程数量</li>
+</ul>
+<p>连接池的连接命中率 = （Connections - Threads_created）/ connections * 100%</p>
+<p>该值较低时，需要增加 thread_cache_size。</p>
+<p><strong>连接请求堆栈</strong></p>
+<p><code>show variables like &#39;back_log&#39;</code></p>
+<p>⬆查询堆栈中的连接请求（因连接数过大而被塞入）</p>
+<p><strong>连接异常</strong></p>
+<p><code>show status like &#39;Aborted%&#39;</code></p>
+<p>⬆查看连接异常的状态信息</p>
+<ul>
+<li>Aborted_clients MySQL客户机被异常关闭的次数。例如发送的SQL语句过长或者select语句执行结果太大，超过 max_allowed_packet 参数值，或者 wait_timeout、 interactive_timeout （ max_allowed_packet 默认 1M）</li>
+<li>Aborted_connects 试图连接到MySQL服务器而失败的连接次数，该次数过大可能有网络问题。错误的账户名密码或者无效的数据库都会使得该值递增。</li>
+</ul>
+<p><strong>其他</strong></p>
+<p><code>show status like &#39;Slow%&#39;</code></p>
+<p>⬆查看其他链接状态</p>
+<ul>
+<li>Slow_launch_threads 记录创建时间超过 slow_launch_time 的线程数，如果该值过大，可能是服务器过载。 （默认情况下， slow_launch_time 为 2秒）</li>
+</ul>
+<p><code>show status like &#39;Connection_error%&#39;</code></p>
+<p>⬆查看连接错误的状态统计信息</p>
+<hr>
+<h3 id="缓存的优化"><a href="#缓存的优化" class="headerlink" title="缓存的优化"></a>缓存的优化</h3><p><code>show variables like &#39;host_cache_size&#39;</code></p>
+<p>⬆查询主机名缓存大小</p>
+<p><code>show variables like &#39;stored_program_cache&#39;</code></p>
+<p>⬆查看MySQL为每个会话提供的存储程序缓存个数上限</p>
+<p><code>show variables like &#39;innodb_ft_cache_size&#39;</code></p>
+<p>⬆查询InnoDB 全文索引缓存的大小</p>
+<p><strong>查询缓存 Query Cache</strong></p>
+<p><code>show variables like &#39;%query_cache%&#39;</code></p>
+<p>⬆查询有关查询缓存的参数设置</p>
+<ul>
+<li>have_query_cache 是否支持查询缓存 YES NO</li>
+<li>query_cache_type 0（OFF） 关闭，1（ON）先到查询缓存中查找，除非</li>
+<li>select 语句中包含 sql_no_cache， 2（DEMOND）不使用查询缓存，除非 select 语句中包含 sql_cache</li>
+<li>query_cache_size 查询缓存的大小</li>
+<li>query_cache_limit 如果 select 语句的结果集大小超过了该值，将不会被添加进查询缓存</li>
+<li>query_cache_min_res_unit 查询缓存是以块为单位分配内存空间，结果集大于该值就会多申请一块，如此反复。合适的值不仅可以减少内存分配操作的次数，还可以减少内存碎片</li>
+<li>query_cache_wlock_invalidate 用于设置行级排他锁与查询缓存之间的关系，默认 0 （false），表示施加行级排他锁时，该表的所有查询缓存依然有效。如果设置为1（true），表示施加行级排他锁时，该表的所有查询缓存将失效。</li>
+</ul>
+<p><strong>查询缓存的命中率</strong></p>
+<p><code>set global query_cache_size = 102760448</code></p>
+<p>⬆开启缓存查询，将其内存大小设置为98M</p>
+<p><code>show status like &#39;Qcache%&#39;</code></p>
+<p>⬆获取当前实例的查询缓存状态，从而可以计算出当前缓存查询的命中率，继而确定 query_cache_size 的设置是否合理</p>
+<ul>
+<li>Qcache_free_memory 当前可用内存</li>
+<li>Qcache_lowmen_prunes 因查询缓存已满而溢出、删除的查询结果个数。该值过大表示需要增加查询缓存大小</li>
+<li>Qcache_hits 使用查询缓存的次数，若该值过小，则考虑是否应该开启查询缓存</li>
+<li>Qcache_total_blocks 查询缓存的总块数</li>
+<li>Qcache_free_blocks 处于空闲的块数（碎片数量）如果该值较大，意味着查询缓存中碎片较多，表明查询结果集比较小，此时可以减少 query_cache_min_res_unit。使用 flush query cache 对碎片进行整理。（reset query cache 会移除查询缓存中的结果集）</li>
+<li>Qcache_inserts 表示此前总共缓存过多少条 select语句的结果集</li>
+<li>Qcache_not_cached 表示没有进入查询缓存的 select语句的个数</li>
+<li>Qcache_queries_in_cache 表示查询缓存中缓存中多少条 select 语句的结果集</li>
+</ul>
+<p><strong>结果集缓存</strong></p>
+<p>select 语句的结果集会暂存在结果集缓存中，结果集缓存的初始大小由 net_buffer_size 定义（默认16KB），如果 select语句的结果集大小超过初始大小，则会自动扩容，但不会超过 max_allowed_packet 的参数值。select 语句执行成功后，结果集缓存空间会“瘦身”到初始大小。</p>
+<p><strong>优化表结构</strong></p>
+<ul>
+<li>尽量将字段定义为 NOT NULL</li>
+<li>考虑使用 enum、 set等复合数据类型</li>
+<li>尽量不存文件、视频等二进制数据</li>
+<li>数值型字段的比较比字符串效率高很多</li>
+</ul>
+<hr>
+<h3 id="SQL语句优化"><a href="#SQL语句优化" class="headerlink" title="SQL语句优化"></a>SQL语句优化</h3><p><strong>了解 SQL 的执行频率</strong></p>
+<p><code>show status like &#39;queries&#39;</code></p>
+<p>⬆执行的 SQL 语句的数量，不统计 com_ping、com_statistics</p>
+<p><code>show global status like &#39;Com_%&#39;</code></p>
+<p>⬆查看MySQL服务执行各种SQL语句的数量</p>
+<ul>
+<li>com_select</li>
+<li>com_insert 批量插入只记一次</li>
+<li>com_update</li>
+<li>com_delete</li>
+</ul>
+<p>可以通过上面的信息了解当前应用偏向于 OLTP 还是 OLAP。</p>
+<ul>
+<li>com_commit</li>
+<li>com_rollback</li>
+</ul>
+<p>可以通过上面信息，了解到rollback从而推断程序中存在某些问题。</p>
+<p><strong>数据处理状态信息</strong></p>
+<p><code>show global status like &#39;handler%&#39;</code></p>
+<p>⬆执行次数查询</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>MySQL 总集</p>
+    <p><span class="copy-title">Count:</span><span class="post-count">2.1k</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2018-04-18, 11:19:10</p>
+    <p><span class="copy-title">Updated At:</span>2023-05-08, 23:27:10</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2018/04/18/mysql-cmd/" title="MySQL 总集">http://nickchenyx.github.io/2018/04/18/mysql-cmd/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">&#39;Attribution-non-commercial-shared in the same way 4.0&#39;</a> Reprint please keep the original link and author.
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2018-2022 nickChen
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().trim().split('\n').length, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    #post .pjax article .article-entry>ol, #post .pjax article .article-entry>ul, #post .pjax article>ol, #post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    #post .pjax article .article-entry li>ol, #post .pjax article .article-entry li>ul,#post .pjax article li>ol, #post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    #post .pjax article .article-entry>ol>li, #post .pjax article .article-entry>ul>li,#post .pjax article>ol>li, #post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    #post .pjax article .article-entry li>ol>li, #post .pjax article .article-entry li>ul>li,#post .pjax article li>ol>li, #post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    #post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+
+    
+    #post .pjax article :not(pre) > code {
+        color: #24292e;
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        background-color: rgba(27,31,35,.05);
+        border-radius: 3px;
+        font-size: 85%;
+        margin: 0;
+        padding: .2em .4em;
+    }
+    
+</style>
+
+
+
+
+
+
+
+</html>

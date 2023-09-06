@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Scala 学习总结 | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" Scala ">
+  <meta name="description" content="Scala 学习总结 | NickChenyx&#39;s Blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Create_Rubbish">
+<meta property="og:url" content="http://nickchenyx.github.io/about/index.html">
+<meta property="og:site_name" content="NickChenyx&#39;s Blog">
+<meta property="og:description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-04-18T03:16:24.000Z">
+<meta property="article:modified_time" content="2023-05-08T15:27:10.763Z">
+<meta property="article:author" content="nickChen">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/github.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="NickChenyx's Blog" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>nickChen</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/nickchenyx"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:nickchenyx@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(33)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="工具">
+                        
+                        工具
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="后端">
+                        
+                        后端
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="数据库">
+                        
+                        数据库
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="管理">
+                        
+                        管理
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="前端">
+                        
+                        前端
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="书籍">
+                        
+                        书籍
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="智能家居">
+                        
+                        智能家居
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Golang">
+                        
+                        Golang
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Linux">
+                        
+                        Linux
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="vim">
+                        
+                        vim
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  site_url"
+               
+               href="/about">About</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="33">
+<input type="hidden" id="yelog_site_word_count" value="29.8k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>单元测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>灯</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>泛型</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>分布式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>缓存</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>开关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>零线</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>使用手册</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件处理</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>问题排查</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>选举</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>源码</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>运维</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>book</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cache</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>coroutine</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Curator</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>curl</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dial</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Distributed</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>dsq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fiber</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Golang 开源系列</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JavaScript</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JDK</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jq</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jsonp</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JVM</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Leader Election</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Map</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>MySQL</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pattern</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>pragmatic</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>quasar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>rust</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scala</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SPI</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>UnitTest</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vim</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ZooKeeper</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="All 智能家居 "
+           href="/2023/09/06/%E7%81%AF%E5%BC%80%E5%85%B3%E8%A1%A5%E5%85%85%E9%9B%B6%E7%BA%BF/"
+           data-tag="开关,零线,灯"
+           data-author="" >
+            <span class="post-title" title="灯开关补充零线">灯开关补充零线</span>
+            <span class="post-date" title="2023-09-06 20:11:31">2023/09/06</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/curl_usage/"
+           data-tag="curl"
+           data-author="" >
+            <span class="post-title" title="curl 实战">curl 实战</span>
+            <span class="post-date" title="2022-10-14 22:19:41">2022/10/14</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2022/10/14/linux_show_proc_cmdline/"
+           data-tag="Linux"
+           data-author="" >
+            <span class="post-title" title="Linux 查看进程启动命令和环境变量">Linux 查看进程启动命令和环境变量</span>
+            <span class="post-date" title="2022-10-14 22:11:43">2022/10/14</span>
+        </a>
+        
+        <a  class="All 管理 "
+           href="/2022/07/24/scrum/"
+           data-tag="scrum"
+           data-author="" >
+            <span class="post-title" title="认识 Scrum 和产品开发流程">认识 Scrum 和产品开发流程</span>
+            <span class="post-date" title="2022-07-24 16:00:06">2022/07/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/23/golang-map-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 map">漫谈 Golang 之 map</span>
+            <span class="post-date" title="2022-07-23 20:59:01">2022/07/23</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/19/golang-slice-dive-into/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 之 slice">漫谈 Golang 之 slice</span>
+            <span class="post-date" title="2022-07-19 22:39:40">2022/07/19</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/07/07/golang_nil_pointer_panic/"
+           data-tag="Golang"
+           data-author="" >
+            <span class="post-title" title="漫谈 Golang 空指针 panic 场景">漫谈 Golang 空指针 panic 场景</span>
+            <span class="post-date" title="2022-07-07 22:23:14">2022/07/07</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-retry-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 retry-go 使用指南">Golang 开源之 retry-go 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:59:22">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/12/golang-tparse-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 tparse 使用指南">Golang 开源之 tparse 使用指南</span>
+            <span class="post-date" title="2022-06-12 18:14:13">2022/06/12</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/06/02/golang-init-panic-mock/"
+           data-tag="Golang,单元测试,UnitTest"
+           data-author="" >
+            <span class="post-title" title="Golang 单元测试之绕过 init panic">Golang 单元测试之绕过 init panic</span>
+            <span class="post-date" title="2022-06-02 14:59:48">2022/06/02</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/24/golang-semgroup-usage/"
+           data-tag="Golang,Golang 开源系列"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 semgroup 使用指南">Golang 开源之 semgroup 使用指南</span>
+            <span class="post-date" title="2022-05-24 11:32:21">2022/05/24</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2022/05/10/golang-try-usage/"
+           data-tag="Golang,Golang 开源系列,泛型"
+           data-author="" >
+            <span class="post-title" title="Golang 开源之 try 使用指南">Golang 开源之 try 使用指南</span>
+            <span class="post-date" title="2022-05-10 20:20:44">2022/05/10</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2022/03/11/local-file-process/"
+           data-tag="jq,dsq,文件处理"
+           data-author="" >
+            <span class="post-title" title="dsq 和 jq 操作记录">dsq 和 jq 操作记录</span>
+            <span class="post-date" title="2022-03-11 20:12:27">2022/03/11</span>
+        </a>
+        
+        <a  class="All Golang "
+           href="/2020/12/28/go-pattern-options/"
+           data-tag="Golang,Pattern,设计模式"
+           data-author="" >
+            <span class="post-title" title="Go 设计模式之 Options-Pattern">Go 设计模式之 Options-Pattern</span>
+            <span class="post-date" title="2020-12-28 10:36:01">2020/12/28</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2020/12/25/java-docker-setup/"
+           data-tag="Java,Docker,JVM"
+           data-author="" >
+            <span class="post-title" title="Docker 中的 Java 运行时内存限制配置">Docker 中的 Java 运行时内存限制配置</span>
+            <span class="post-date" title="2020-12-25 10:14:34">2020/12/25</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/11/17/dial/"
+           data-tag="rust,coroutine,fiber,quasar,dial"
+           data-author="" >
+            <span class="post-title" title="记一次端口扫描工具实现">记一次端口扫描工具实现</span>
+            <span class="post-date" title="2020-11-17 14:33:02">2020/11/17</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/10/vim-lsp-ready/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="vim lsp 安装配置">vim lsp 安装配置</span>
+            <span class="post-date" title="2020-11-10 10:26:08">2020/11/10</span>
+        </a>
+        
+        <a  class="All vim "
+           href="/2020/11/01/vim-learning/"
+           data-tag="vim"
+           data-author="" >
+            <span class="post-title" title="Vim 学习笔记">Vim 学习笔记</span>
+            <span class="post-date" title="2020-11-01 17:01:00">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/11/01/linux-load-high/"
+           data-tag="linux,运维,问题排查"
+           data-author="" >
+            <span class="post-title" title="Linux 服务器负载(load)过高排查">Linux 服务器负载(load)过高排查</span>
+            <span class="post-date" title="2020-11-01 14:10:54">2020/11/01</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2020/08/17/linux-devops/"
+           data-tag="linux,运维"
+           data-author="" >
+            <span class="post-title" title="Linux 开发运维操作记录">Linux 开发运维操作记录</span>
+            <span class="post-date" title="2020-08-17 13:22:51">2020/08/17</span>
+        </a>
+        
+        <a  class="All 工具 "
+           href="/2020/08/01/git-usage/"
+           data-tag="git,使用手册"
+           data-author="" >
+            <span class="post-title" title="git 使用手册">git 使用手册</span>
+            <span class="post-date" title="2020-08-01 10:57:56">2020/08/01</span>
+        </a>
+        
+        <a  class="All 书籍 "
+           href="/2020/07/19/ThePragmaticProgrammer/"
+           data-tag="book,pragmatic"
+           data-author="" >
+            <span class="post-title" title="程序员修炼之道(The Pragmatic Programmer)">程序员修炼之道(The Pragmatic Programmer)</span>
+            <span class="post-date" title="2020-07-19 11:20:58">2020/07/19</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2020/05/08/redis-devops/"
+           data-tag="运维,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 线上运维操作">Redis 线上运维操作</span>
+            <span class="post-date" title="2020-05-08 16:08:14">2020/05/08</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2019/03/27/redis-implements/"
+           data-tag="Cache,缓存,Redis"
+           data-author="" >
+            <span class="post-title" title="Redis 实现 (待补全)">Redis 实现 (待补全)</span>
+            <span class="post-date" title="2019-03-27 14:56:39">2019/03/27</span>
+        </a>
+        
+        <a  class="All Linux "
+           href="/2018/05/09/screen-manual/"
+           data-tag="运维,Linux"
+           data-author="" >
+            <span class="post-title" title="Screen 使用指南">Screen 使用指南</span>
+            <span class="post-date" title="2018-05-09 21:48:29">2018/05/09</span>
+        </a>
+        
+        <a  class="All 数据库 "
+           href="/2018/04/18/mysql-cmd/"
+           data-tag="MySQL"
+           data-author="" >
+            <span class="post-title" title="MySQL 总集">MySQL 总集</span>
+            <span class="post-date" title="2018-04-18 11:19:10">2018/04/18</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/jdk1-7-concurrenthashmap-summary/"
+           data-tag="Java,JDK,源码,Map"
+           data-author="" >
+            <span class="post-title" title="JDK1.7 ConcurrentHashMap 解析">JDK1.7 ConcurrentHashMap 解析</span>
+            <span class="post-date" title="2018-04-17 16:04:46">2018/04/17</span>
+        </a>
+        
+        <a  class="All 前端 "
+           href="/2018/04/17/jsonp-essentials/"
+           data-tag="JavaScript,jsonp"
+           data-author="" >
+            <span class="post-title" title="JSONP 详解">JSONP 详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/spi-essentials-md/"
+           data-tag="Java,SPI"
+           data-author="" >
+            <span class="post-title" title="SPI 机制详解">SPI 机制详解</span>
+            <span class="post-date" title="2018-04-17 16:04:24">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/scala-for-the-impatient/"
+           data-tag="Scala"
+           data-author="" >
+            <span class="post-title" title="Scala 学习总结">Scala 学习总结</span>
+            <span class="post-date" title="2018-04-17 16:04:08">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/17/CuratorFramework-leader/"
+           data-tag="Curator,ZooKeeper,Leader Election,选举"
+           data-author="" >
+            <span class="post-title" title="实现Leader选举通过 Curator">实现Leader选举通过 Curator</span>
+            <span class="post-date" title="2018-04-17 14:42:41">2018/04/17</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/14/CuratorFramework-Cache/"
+           data-tag="Curator,Cache,缓存,ZooKeeper"
+           data-author="" >
+            <span class="post-title" title="使用ZK实现 Cache 通过 Curator">使用ZK实现 Cache 通过 Curator</span>
+            <span class="post-date" title="2018-04-14 17:03:31">2018/04/14</span>
+        </a>
+        
+        <a  class="All 后端 "
+           href="/2018/04/12/CuratorFramework-DistributedQueue/"
+           data-tag="Curator,ZooKeeper,Distributed,分布式"
+           data-author="" >
+            <span class="post-title" title="实现分布式队列通过 Curator">实现分布式队列通过 Curator</span>
+            <span class="post-date" title="2018-04-12 11:33:29">2018/04/12</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-scala-for-the-impatient" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Scala 学习总结</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="后端">后端</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Scala</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2023-05-08 23:27:10'>2018-04-17 16:04</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:2.3k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Assignment"><span class="toc-text">Assignment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input"><span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output"><span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Loops"><span class="toc-text">Loops</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Advanced-for-Loops"><span class="toc-text">Advanced for Loops</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Variable-Arguments"><span class="toc-text">Variable Arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%81%93-String-Interpolator-%E7%9A%84%E9%A2%98%E7%9B%AE"><span class="toc-text">一道 String Interpolator 的题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array"><span class="toc-text">Array</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Class"><span class="toc-text">Class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extractors-with-No-Arguments"><span class="toc-text">Extractors with No Arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functions-as-Values"><span class="toc-text">Functions as Values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Control-Abstractions"><span class="toc-text">Control Abstractions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Patterns-in-Variable-Declarations"><span class="toc-text">Patterns in Variable Declarations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Partial-Functions"><span class="toc-text">Partial Functions</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>这篇文章用来总结 Scala 学习中需要记录的知识，也会是以后 Scala 相关知识的索引。</p>
+</blockquote>
+<h3 id="Assignment"><a href="#Assignment" class="headerlink" title="Assignment"></a>Assignment</h3><p><code>Scala</code> 的赋值语句的返回值是 <code>Unit</code>， 因此不能使用 <code>x=y=1</code> 类似的赋值语法。<br>可以使用 `@`` 的小技巧来完成一个连续赋值的语法糖。</p>
+<pre><code class="scala">y = 1 // Unit ()
+
+// not work
+x = y = 1
+
+// trick
+var x@y = 1 // x = 1, y = 1</code></pre>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><p>读取 Console 数据。</p>
+<pre><code class="scala">import scala.io._
+
+val name = StdIn.readLine(&quot;your name:&quot;)
+print(&quot;your age:&quot;)
+val age = StdIn.readInt()</code></pre>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3><p>格式化输出，建议使用 <code>f</code>插值表达式，类型会在编译期得到检查。</p>
+<pre><code class="scala">printf(&quot;%d year %f seconds&quot;, year, sec)
+
+// recommend, type-safe
+print(f&quot;$year $&#123;sec&#125;%7.2f seconds&quot;)
+
+// raw text
+print(raw&quot;\n 123&quot;)</code></pre>
+<h3 id="Loops"><a href="#Loops" class="headerlink" title="Loops"></a>Loops</h3><p><code>Scala</code> 没有 <code>break</code>, <code>continue</code> 关键字，只能通过其他方式来实现。</p>
+<pre><code class="scala">// 1. use Boolean
+var flag = true
+for (i &lt;- 1 to 9) &#123;
+    if (flag) &#123;
+        print(i)
+        flag = false
+    &#125; else flag = true
+&#125;
+
+// 2. use `return`
+def loop(): Int = &#123;
+  for (i &lt;- 1 to 10) &#123;
+    if (i == 2) return -1
+    else ()
+  &#125;
+  0
+&#125;
+
+// 3. use `break` method in the `Breaks` object
+// not recommend
+//   the control transfer is done by throwing and catching an exception,
+//   so you should avoid this mechanism when time is of essence.
+import scala.util.control.Breaks._
+
+def loop1(): Unit = &#123;
+  breakable &#123;
+    for (i &lt;- 1 to 10) &#123;
+      if (i == 3) break
+      else println(i)
+    &#125;
+  &#125;
+&#125;</code></pre>
+<p><code>Scala</code> 的循环语句中，本地的变量名可以覆盖使用。</p>
+<pre><code class="scala">val n = 10
+
+// local n will be overlapping
+for (n &lt;- 1 to 9) &#123;
+    print(n) // print 1-9
+&#125;</code></pre>
+<h3 id="Advanced-for-Loops"><a href="#Advanced-for-Loops" class="headerlink" title="Advanced for Loops"></a>Advanced for Loops</h3><p><code>Scala</code> 有更加便利的循环操作，可以完成多级循环以及列表推导。</p>
+<p><strong>非常简单的语法糖完成多级的 for 循环</strong></p>
+<pre><code class="scala">// multiple generators
+for (i &lt;- 1 to 3; j &lt;- 1 to 3) println(f&quot;$&#123;i*10 + j&#125;%3d&quot;)
+
+// guard
+for (i &lt;- 1 to 3; j &lt;- 1 to 3 if i!=j) println(f&quot;$&#123;i*10 + j&#125;%3d&quot;)
+
+// definitions, any number.
+for (i &lt;- 1 to 3; from = 4-i; j &lt;- from to 3) println(f&quot;$&#123;i*10 + j&#125;%3d&quot;)</code></pre>
+<p><strong>列表推导</strong></p>
+<p>列表推导生成的结果总是兼容第一个生成器的格式，可以看2、3例，第一个生成器是 String， 生成的就是 String格式。</p>
+<pre><code class="scala">for (i &lt;- 1 to 9) yield i%5
+  // Yields Vector(1, 2, 3, 4, 0, 1, 2, 3, 4)
+
+
+// The generated collection is compatible with the first generator.
+for (c &lt;- &quot;Hello&quot;; i &lt;- 0 to 1) yield (c + i).toChar
+  // Yields &quot;HIeflmlmop&quot;
+for (i &lt;- 0 to 1; c &lt;- &quot;Hello&quot;) yield (c + i).toChar
+  // Yields Vector(&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;I&#39;, &#39;f&#39;, &#39;m&#39;, &#39;m&#39;, &#39;p&#39;)</code></pre>
+<p>如果不想使用分号的风格 ，可以使用 {} 加换行 替代</p>
+<pre><code class="scala">for &#123; i &lt;- 1 to 3
+  from = 4 - i
+  j &lt;- from to 3 &#125;</code></pre>
+<h3 id="Variable-Arguments"><a href="#Variable-Arguments" class="headerlink" title="Variable Arguments"></a>Variable Arguments</h3><p>这是普通的可变长参数函数的实现，这里主要是指出一下 <code>Scala</code> 特有的语法。</p>
+<p>能够使一个列表转变成可变参数的形式传递到方法内。</p>
+<pre><code class="scala">def sum(args: Int *): Int = &#123;
+  if (args.isEmpty) 0
+  else args.head + sum(args.tail :_*)
+&#125;
+
+sum(1 to 5 :_*)</code></pre>
+<h3 id="一道-String-Interpolator-的题目"><a href="#一道-String-Interpolator-的题目" class="headerlink" title="一道 String Interpolator 的题目"></a>一道 String Interpolator 的题目</h3><p>快捷的定义一个 java.time.LocalDate，使用到了 implicit 关键字。</p>
+<pre><code class="scala">import java.time.LocalDate
+
+implicit class DateInterpolator(val sc: StringContext) extends AnyVal &#123;
+  def date(args: Any*): LocalDate = &#123;
+    if (args.length != 3) throw new IllegalArgumentException(&quot;arguments should contain year, month, day.&quot;)
+
+    for (x &lt;- sc.parts) if (x.length &gt; 0 &amp;&amp; !x.equals(&quot;-&quot;)) throw new IllegalArgumentException(&quot;year-month-day format required&quot;)
+    LocalDate.of(args(0).toString.toInt, args(1).toString.toInt, args(2).toString.toInt)
+  &#125;
+&#125;
+
+
+val year = 2017
+val month = 1
+val day = 5
+
+date&quot;$year-$month-$day&quot; // java.time.LocalDate = 2017-01-05</code></pre>
+<h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><p><code>Scala</code> 中的数组操作， <code>Array</code> 对应的是定长数组，<code>ArrayBuffer</code> 对应的是 Java的 <code>ArrayList</code>。</p>
+<pre><code class="scala">// Traverse indices
+for (i &lt;- 0 until a.length) &#123; &#125;
+// or
+for (i &lt;- a.indices) &#123; &#125;
+
+// To visit every second element
+for (i &lt;- 0 until a.length by 2) &#123; &#125;
+
+// To visit the elements starting from the end of the array
+for (i &lt;- 0 until a.length by -1) &#123; &#125;
+// or
+for (i &lt;- a.indices.reverse) &#123; &#125;
+
+// Traverse all values of the list
+for (i &lt;- a) &#123; &#125;</code></pre>
+<h3 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h3><p><code>Scala</code> 实现 class的方式不同于 Java。<code>Scala</code> 对所有的 <code>var</code>，<code>val</code>都会选择性地生成对应的 <code>Setter</code> &amp; <code>Getter</code>。</p>
+<table>
+<thead>
+<tr>
+<th>generate</th>
+<th>var</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>setter</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>getter</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody></table>
+<p>如果声明是 <code>private</code> 的话，那么生成的 <code>Setter</code> &amp; <code>Getter</code> 也是 <code>private</code> 的。<br>如果不想要生成 <code>Setter</code> &amp; <code>Getter</code>，可以使用 <code>private[this]</code> 来修饰字段。<br>这里还有一个特殊点：字段声明是 <code>private</code> 的，只有该类的对象才能访问，这点和 Java的表现不同（Java 是只能在类部才能使用）。<br>下面代码中的 other也是一个 <code>Counter</code>类型，他也能访问 private var value。如果使用了 <code>private[this]</code>，表现就和 Java中一样了。</p>
+<pre><code class="scala">class Counter &#123;
+  private var value = 0
+  def increment() &#123; value += 1 &#125;
+  def isLess(other : Counter) = value &lt; other.value
+    // Can access private ﬁeld of other object
+&#125;</code></pre>
+<h3 id="Extractors-with-No-Arguments"><a href="#Extractors-with-No-Arguments" class="headerlink" title="Extractors with No Arguments"></a>Extractors with No Arguments</h3><p><code>Extractors</code> 可以用无参形式调用，这种情况下，它的返回值应该是一个 <code>Boolean</code>。<br>下面是一个样例，可以看到无参形式的 <code>Extractors</code>在模式匹配的时候使用。</p>
+<pre><code class="scala">object Name &#123;
+  def unapply(input: String) = &#123;
+    val pos = input.indexOf(&quot; &quot;)
+    if (pos == -1) None
+    else Some((input.substring(0, pos), input.substring(pos + 1)))
+  &#125;
+&#125;
+
+object IsCompound &#123;
+  def unapply(input: String) = input.contains(&quot; &quot;)
+&#125;
+
+val author = &quot;king kong W&quot; // &quot;king kongW&quot;
+
+author match &#123;
+  case Name(first, IsCompound()) =&gt; print(first + &quot; mix &quot; )
+    // 当 IsCompound() 的返回值为 True时执行
+  case Name(first, last) =&gt; print(first + &quot; : &quot; + last)
+&#125;</code></pre>
+<h3 id="Functions-as-Values"><a href="#Functions-as-Values" class="headerlink" title="Functions as Values"></a>Functions as Values</h3><p><code>Scala</code> 中函数(<code>Function</code>)也是第一等公民，可以作为值来传递。但是方法(<code>Method</code>)并不是函数，无法作为值传递。<br>下面展示一下方法如何转化为一个函数。<br><em>PS: 任何时候使用 def 关键词定义的都是方法，不是函数。</em></p>
+<pre><code class="scala">import scala.math._
+
+// -- method from package object --
+val fun = ceil _
+    //  the _ turns the ceil method into a function.
+val func:(Double) =&gt; Double = ceil
+    // The _ suffix is not necessary when you use a method name in a context where
+    // a function is expected.
+
+// -- method from a class --
+val f = (_: String).charAt(_:Int)
+
+val fc: (String, Int) =&gt; Char = _.charAt(_)</code></pre>
+<h3 id="Control-Abstractions"><a href="#Control-Abstractions" class="headerlink" title="Control Abstractions"></a>Control Abstractions</h3><p><code>Scala</code> 中有两种调用形式的参数， <code>call-by-name</code>和 <code>call-by-value</code>，大多数情况下只使用后者，现在有一种使用前者的情况。</p>
+<pre><code class="scala">                // call-by-value
+def runInThread(block: () =&gt; Unit) &#123;  // 这是对一个参数的类型定义
+  new Thread &#123;
+    override def run() &#123; block() &#125; // 这里是调用函数
+  &#125;.start()
+&#125;
+
+runInThread &#123; () =&gt; println(&quot;Hi&quot;); Thread.sleep(10000); println(&quot;Bye&quot;) &#125;
+    // 这里调用的时候 必须是 `() =&gt;`带这个开头，就显得很多余</code></pre>
+<pre><code class="scala">                // call-by-name
+def runInThread(block: =&gt; Unit) &#123;
+  new Thread &#123;
+    override def run() &#123; block &#125;
+  &#125;.start()
+&#125;
+
+runInThread &#123; println(&quot;Hi&quot;); Thread.sleep(10000); println(&quot;Bye&quot;) &#125;
+    // 这里就可以省略掉 `() =&gt;`这个开头了，匿名函数写起来就很简洁</code></pre>
+<p>可以看到 <code>call-by-name</code> 的参数调用使得方法在调用的时候非常方便，这里利用这一点实现类似 <code>while</code> 的语法。</p>
+<pre><code class="scala">// definition
+          // call-by-name        // call-by-name
+def until(condition: =&gt; Boolean)(block: =&gt; Unit) &#123;
+  if (!condition) &#123;
+    block
+    until(condition)(block)
+  &#125;
+&#125;
+
+// -- sample --
+var x = 10
+until (x == 0) &#123; // without `()=&gt;`, pretty concise
+  x -= 1
+  println(x)
+&#125;
+Unlike a regular (or call-by-value) parameter, the parameter expression is not evaluated when the function is called.
+After all, we don’t want x == 0 to evaluate to false in the call to until.</code></pre>
+<p>这里说的非常重要，正是因为 <code>call-by-name</code> 的这个特性，才使得 <code>until</code> 方法可以对在运行时求值，而不是调用方法时 <code>x==0</code> 就已经作为值 <code>false</code> 传入了。</p>
+<h3 id="Patterns-in-Variable-Declarations"><a href="#Patterns-in-Variable-Declarations" class="headerlink" title="Patterns in Variable Declarations"></a>Patterns in Variable Declarations</h3><p><code>Scala</code> 支持在变量声明时的解构操作，如下操作：</p>
+<pre><code class="scala">val (x, y) = (1, 2)</code></pre>
+<p>对于表达式 <code>val p(x1, ..., xn) = e</code>, 定义上等同与</p>
+<pre><code class="scala">val $result = e match &#123; case p(x1, ..., xn) =&gt; (x1, ..., xn) &#125;
+val x1 = $result._1
+...
+val xn = $result._n</code></pre>
+<p>其中 x1~xn 是 free variables，可以是任意的值，如下表达式，在 Scala中是合理的：</p>
+<pre><code class="scala">val 2 = x</code></pre>
+<p>等同于：</p>
+<pre><code class="scala">var $result = x match &#123; case 2 =&gt; () &#125;
+// No assignments.</code></pre>
+<p>并没有赋值语句。 这等同于：</p>
+<pre><code class="scala">if (!(2 == x)) throw new MatchError</code></pre>
+<h3 id="Partial-Functions"><a href="#Partial-Functions" class="headerlink" title="Partial Functions"></a>Partial Functions</h3><p><code>Scala</code> 又一迷之特性，这个语法糖不知道又会有多少玩法了。 偏函数，它的定义是这样的：</p>
+<blockquote>
+<p>a function which may not be defined for all inputs. PartialFunction[A, B]. (A is the parameter type, B the return type.)</p>
+</blockquote>
+<p>实际上如果一个偏函数穷举了所有可能性，那他就变成了一个 Function1。一个神奇的方法… Scala 设置了 Function1 到 Function22 总共可以允许 22 个参数。</p>
+<p>然后就是神奇的语法糖了，甜不甜…</p>
+<blockquote>
+<p>A Seq[A] is a PartialFunction[Int, A], and a Map[K, V] is a PartialFunction[K, V].</p>
+</blockquote>
+<p>基于这个可以带来的操作：</p>
+<pre><code class="scala">val names = Array(&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carmen&quot;)
+val scores = Map(&quot;Alice&quot; -&gt; 10, &quot;Carmen&quot; -&gt; 7)
+names.collect(scores) // Yields Array(10, 7)</code></pre>
+<p>偏函数有 <code>lift</code> 函数，可以将偏函数转变为一个正常的函数，返回值是 <code>Option[T]</code>。反之也可以将一个有 <code>Option[T]</code> 返回值的函数，通过 <code>unlift</code> 转变为一个偏函数。</p>
+<p>try 语句的 catch 子句就是一个偏函数，可以将这个字句赋值给一个变量。</p>
+<pre><code class="scala">                // call by name
+def tryCatch[T](b: =&gt; T, catcher: PartialFunction[Throwable, T]) =
+  try &#123; b &#125; catch catcher
+
+val result = tryCatch(str.toInt,
+  &#123; case _: NumberFormatException =&gt; -1 &#125;)</code></pre>
+<p>可以看到 <code>catch</code> 子句就是一个偏函数， 通过 <code>catcher</code> 这个变量可以动态的切换偏函数。</p>
+<p>不得不感叹一声，这个设计思维啊。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">Title:</span>Scala 学习总结</p>
+    <p><span class="copy-title">Count:</span><span class="post-count">2.3k</span></p>
+    <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
+    <p><span class="copy-title">Created At:</span>2018-04-17, 16:04:08</p>
+    <p><span class="copy-title">Updated At:</span>2023-05-08, 23:27:10</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2018/04/17/scala-for-the-impatient/" title="Scala 学习总结">http://nickchenyx.github.io/2018/04/17/scala-for-the-impatient/</a>
+    <p>
+        <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">&#39;Attribution-non-commercial-shared in the same way 4.0&#39;</a> Reprint please keep the original link and author.
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2018-2022 nickChen
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().trim().split('\n').length, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    #post .pjax article .article-entry>ol, #post .pjax article .article-entry>ul, #post .pjax article>ol, #post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    #post .pjax article .article-entry li>ol, #post .pjax article .article-entry li>ul,#post .pjax article li>ol, #post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    #post .pjax article .article-entry>ol>li, #post .pjax article .article-entry>ul>li,#post .pjax article>ol>li, #post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    #post .pjax article .article-entry li>ol>li, #post .pjax article .article-entry li>ul>li,#post .pjax article li>ol>li, #post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+    #post .pjax article blockquote {
+        padding: 10px 20px;
+        background-color: white;
+        border: none;
+        border-left: 4px solid #42b983;
+        border-right: 4px solid #42b983;
+        border-radius: 10px;
+    }
+    
+
+    /*文章列表背景图*/
+    
+
+    
+    #post .pjax article :not(pre) > code {
+        color: #24292e;
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        background-color: rgba(27,31,35,.05);
+        border-radius: 3px;
+        font-size: 85%;
+        margin: 0;
+        padding: .2em .4em;
+    }
+    
+</style>
+
+
+
+
+
+
+
+</html>
