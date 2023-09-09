@@ -6,7 +6,7 @@
   <link href="http://nickchenyx.github.io/atom.xml" rel="self"/>
   
   <link href="http://nickchenyx.github.io/"/>
-  <updated>2023-09-09T12:04:21.275Z</updated>
+  <updated>2023-09-09T12:52:29.627Z</updated>
   <id>http://nickchenyx.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://nickchenyx.github.io/2023/09/09/%E4%BF%AE%E6%94%B9%20Home%20Assistant%20%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
     <id>http://nickchenyx.github.io/2023/09/09/%E4%BF%AE%E6%94%B9%20Home%20Assistant%20%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</id>
     <published>2023-09-09T11:03:22.000Z</published>
-    <updated>2023-09-09T12:04:21.275Z</updated>
+    <updated>2023-09-09T12:52:29.627Z</updated>
     
-    <content type="html"><![CDATA[<p>因为 Home Assistant 需要联网下载诸多插件，比如加载项（Add-On）里的 ESPHome、Node-RED 之类的，需要配置网络代理才能够下载。</p><p>因为安装 Home Assistant 方式有好几种，配置网络代理的方法也有差异。下列配置方式请对号入座。</p><h2 id="HAOS-配置网络"><a href="#HAOS-配置网络" class="headerlink" title="HAOS 配置网络"></a>HAOS 配置网络</h2><p>如果是安装的是 HAOS（Home Assistant Operating System），可以通过两种方式配置网络代理。当然前提是你必须有一个路由服务可以进行网络代理，以下称之为代理路由器。</p><ol><li>在 Home Assistant 控制面中配置</li></ol><p>在主页侧边栏的「配置」中，找到「系统」-「网络」选项，进入「网络」配置页面中可以看到「配置网络接口」的配置栏，在此处可以配置 IPV4 为 <strong>「静态地址」</strong>，配置如下：</p><ul><li>自定义一个不冲突的 IP 地址/子网掩码，比如 192.168.0.123/24</li><li>配置网关地址为你的代理路由器地址，比如 192.168.0.111</li><li>配置 DNS 服务器地址为你的代理路由器地址，比如 192.168.0.111</li></ul><ol start="2"><li>在 HAOS 的终端中通过命令配置，这个步骤较为复杂，不如直接在第一步配置。而且这里改动后，在前端页面的网络配置页面也不会展示，个人感觉官方可能也不建议这么搞。</li></ol><ul><li>在 HA 系统中输入 <code>login</code>，登录进系统</li><li>输入 <code>nmcli connection show</code> 查看你的连接列表，选择你想要修改的连接<ul><li>这里新安装的话，我们通常只能看到一个 Supervisor 之类的连接，记住这个连接名称（Name）</li></ul></li><li>输入 <code>nmcli con edit &quot;&#123;连接名称&#125;&quot;</code>  ，这是能进入到 <code>nmcli&gt;</code> 命令中</li><li>这时候修改网络地址即可，连续输入以下几个命令：</li></ul><pre><code class="shell">nmcli&gt; set ipv4.address 192.168.0.123/24nmcli&gt; set ipv4.dns 192.168.0.111nmcli&gt; set ipv4.gateway 192.168.0.111nmcli&gt; savenmcli&gt; quit</code></pre><ul><li>完成以上动作后，输入 <code>exit</code> 退出刚才 <code>login</code> 的系统，回到 <code>ha&gt;</code> 命令页面，输入 <code>ho reboot</code> 重启服务</li><li>系统重启后，输入 <code>ha newtork info</code> 就可以看到网络配置改好了。</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>因为 Home Assistant 需要联网下载诸多插件，比如加载项（Add-On）里的 ESPHome、Node-RED 之类的，需要配置网络代理才能够下载。</p><p>因为安装 Home Assistant 方式有好几种，配置网络代理的方法也有差异。下列配置方式请对号入座。</p><h2 id="HAOS-配置网络"><a href="#HAOS-配置网络" class="headerlink" title="HAOS 配置网络"></a>HAOS 配置网络</h2><p>如果是安装的是 HAOS（Home Assistant Operating System），可以通过两种方式配置网络代理。当然前提是你必须有一个路由服务可以进行网络代理，以下称之为代理路由器。</p><ol><li>在 Home Assistant 控制面中配置<br>在主页侧边栏的「配置」中，找到「系统」-「网络」选项，进入「网络」配置页面中可以看到「配置网络接口」的配置栏，在此处可以配置 IPV4 为 <strong>「静态地址」</strong>，配置如下：</li></ol><ul><li>自定义一个不冲突的 IP 地址/子网掩码，比如 192.168.0.123/24</li><li>配置网关地址为你的代理路由器地址，比如 192.168.0.111</li><li>配置 DNS 服务器地址为你的代理路由器地址，比如 192.168.0.111</li></ul><ol start="2"><li>在 HAOS 的终端中通过命令配置</li></ol><ul><li>输入 <code>network info</code> 查看网卡名称，格式如下：<br>```yaml<br>…<br>interfaces:</li><li>interface: enp0xxx # 这里就是网卡名称<br>…<br>```</li><li>输入  <code>network update &#123;网卡名称&#125; --ipv4-address 192.160.0.123 --ipv4-gateway 192.168.0.111 --ipv4-nameserver 192.168.0.111</code> 等待配置成功即可</li><li>实测在 HAOS 10.5 版本，修改 <code>--ipv4-nameserver</code> 不会生效，这个还是去第一步的控制面 UI 页面修改吧 ……</li></ul><ol start="3"><li>在 HAOS 的终端中通过 <code>nmcli</code> 命令配置，这个步骤较为复杂，不如直接在第一步配置。而且这里改动后，在前端页面的网络配置页面也不会展示，个人感觉官方可能也不建议这么搞。</li></ol><ul><li>在 HA 系统中输入 <code>login</code>，登录进系统</li><li>输入 <code>nmcli connection show</code> 查看你的连接列表，选择你想要修改的连接<ul><li>这里新安装的话，我们通常只能看到一个 Supervisor 之类的连接，记住这个连接名称（Name）</li></ul></li><li>输入 <code>nmcli con edit &quot;&#123;连接名称&#125;&quot;</code>  ，这是能进入到 <code>nmcli&gt;</code> 命令中</li><li>这时候修改网络地址即可，连续输入以下几个命令：<pre><code class="shell">nmcli&gt; set ipv4.address 192.168.0.123/24nmcli&gt; set ipv4.dns 192.168.0.111nmcli&gt; set ipv4.gateway 192.168.0.111nmcli&gt; savenmcli&gt; quit</code></pre></li><li>完成以上动作后，输入 <code>exit</code> 退出刚才 <code>login</code> 的系统，回到 <code>ha&gt;</code> 命令页面，输入 <code>ho reboot</code> 重启服务</li><li>系统重启后，输入 <code>ha newtork info</code> 就可以看到网络配置改好了。</li></ul>]]></content>
     
     
       
