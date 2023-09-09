@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>实现分布式队列通过 Curator | NickChenyx&#39;s Blog</title>
-  <meta name="keywords" content=" Curator , ZooKeeper , Distributed , 分布式 ">
-  <meta name="description" content="实现分布式队列通过 Curator | NickChenyx&#39;s Blog">
+  <title>homeassistant_change_network | NickChenyx&#39;s Blog</title>
+  <meta name="keywords" content=" HA , Network , Proxy , HAOS ">
+  <meta name="description" content="homeassistant_change_network | NickChenyx&#39;s Blog">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="2017年，我是一个刚毕业的学生，从事编程工作。努力学习中。2018年，我是经历了酒店传统互联网企业以及阿里商家营销互联网企业，对业务的逐步了解。2020年，我在游戏电竞平台化方向探索了2年，也从服务端主程逐步成长为服务端负责人，带领小组共8人在业务及技术向上不断探索，对线上稳定性及全站架构上有了更深入的实践和理解。 作为一个技术爱好者，希望一直从一个技术人的根底出发，结合业务领域需求，探索前进的">
 <meta property="og:type" content="website">
@@ -846,9 +846,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-CuratorFramework-DistributedQueue" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-修改 Home Assistant 的网络配置" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">实现分布式队列通过 Curator</h1>
+        <h1 class="article-title">homeassistant_change_network</h1>
     
     <div class="article-meta">
         
@@ -858,7 +858,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="后端">后端</a>
+            <a  data-rel="HomeAssistant">HomeAssistant</a>
             
         </span>
         
@@ -866,25 +866,25 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">Curator</a>
+            <a class="color3">HA</a>
             
-            <a class="color5">ZooKeeper</a>
+            <a class="color3">Network</a>
             
-            <a class="color2">Distributed</a>
+            <a class="color1">Proxy</a>
             
-            <a class="color4">分布式</a>
+            <a class="color5">HAOS</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            Created At : <time class="date" title='Updated At: 2023-05-08 23:27:10'>2018-04-12 11:33</time>
+            Created At : <time class="date" title='Updated At: 2023-09-09 20:01:02'>2023-09-09 19:03</time>
         
     </div>
     <div class="article-meta">
         
-        <span>Count:2k</span>
+        <span>Count:550</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -903,7 +903,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Curator-Framework-%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3"><span class="toc-text">Curator Framework 深入了解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%88DistributedQueue-%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="toc-text">分布式队列实现（DistributedQueue 实现）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%90%ABID%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%88DistributedIdQueue-%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="toc-text">分布式含ID队列实现（DistributedIdQueue 实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%88DistributedPriorityQueue-%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="toc-text">分布式优先级队列实现（DistributedPriorityQueue 实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8FDelay%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%88DistributedDelayQueue-%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="toc-text">分布式Delay队列实现（DistributedDelayQueue 实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-Queue%E9%A3%8E%E6%A0%BC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%88SimpleDistributedQueue-%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="toc-text">JDK Queue风格接口的分布式队列实现（SimpleDistributedQueue 实现）</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HAOS-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="toc-text">HAOS 配置网络</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -919,172 +919,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Curator-Framework-深入了解"><a href="#Curator-Framework-深入了解" class="headerlink" title="Curator Framework 深入了解"></a>Curator Framework 深入了解</h1><p>本文受到 <a target="_blank" rel="noopener" href="http://colobu.com">colobu</a> 前辈文章的指引，深入了解 Curator Framework 的工作流程，十分感谢 colobu 前辈的博文给予的启发和指导。</p>
-<h2 id="分布式队列实现（DistributedQueue-实现）"><a href="#分布式队列实现（DistributedQueue-实现）" class="headerlink" title="分布式队列实现（DistributedQueue 实现）"></a>分布式队列实现（DistributedQueue 实现）</h2><p><code>DistributedQueue</code> 是最普通的一种队列。 它设计以下四个类：</p>
+        <p>因为 Home Assistant 需要联网下载诸多插件，比如加载项（Add-On）里的 ESPHome、Node-RED 之类的，需要配置网络代理才能够下载。</p>
+<p>因为安装 Home Assistant 方式有好几种，配置网络代理的方法也有差异。下列配置方式请对号入座。</p>
+<h2 id="HAOS-配置网络"><a href="#HAOS-配置网络" class="headerlink" title="HAOS 配置网络"></a>HAOS 配置网络</h2><p>如果是安装的是 HAOS（Home Assistant Operating System），可以通过两种方式配置网络代理。当然前提是你必须有一个路由服务可以进行网络代理，以下称之为代理路由器。</p>
+<ol>
+<li>在 Home Assistant 控制面中配置</li>
+</ol>
+<p>在主页侧边栏的「配置」中，找到「系统」-「网络」选项，进入「网络」配置页面中可以看到「配置网络接口」的配置栏，在此处可以配置 IPV4 为 <strong>「静态地址」</strong>，配置如下：</p>
 <ul>
-<li><code>QueueBuilder</code></li>
-<li><code>QueueConsumer</code></li>
-<li><code>QueueSerializer</code></li>
-<li><code>DistributedQueue</code></li>
+<li>自定义一个不冲突的 IP 地址/子网掩码，比如 192.168.0.123/24</li>
+<li>配置网关地址为你的代理路由器地址，比如 192.168.0.111</li>
+<li>配置 DNS 服务器地址为你的代理路由器地址，比如 192.168.0.111</li>
 </ul>
-<p>创建队列使用 <code>QueueBuilder</code>,它也是其它队列的创建类，看看他的 builder 方法：</p>
-<pre><code class="java">    public static &lt;T&gt; QueueBuilder&lt;T&gt; builder(CuratorFramework client, QueueConsumer&lt;T&gt; consumer, QueueSerializer&lt;T&gt; serializer, String queuePath) &#123;
-            return new QueueBuilder(client, consumer, serializer, queuePath);
-        &#125;</code></pre>
-<p>这里有四个入参，分别对应着客户端连接对象，consumer 对象，serializer 对象，path 节点对象。队列的消费就是通过 consumer 对象来实现的；serializer 对象负责存入 queue 的数据序列化和消费时的反序列化。</p>
-<pre><code class="java">    // 创建了一个没有 consumer 的 builder
-    QueueBuilder&lt;String&gt; builder = QueueBuilder.builder(client, null, createQueueSerializer(), PATH); 
-    // 创建了一个 queue 对象
-    DistributedQueue&lt;String&gt; queue = builder.buildQueue();
-    // 启动 queue
-    queue.start();
-
-    // 这样操作就可以往 queue 里塞入消息了
-    queue.put(&quot;Test Message.&quot;);</code></pre>
-<p>注意此时的 queue 是没有消费者的，如果需要消费者可以新建一个 queue_2 对象来消费对应 queuePath 的消息队列。当然也可以在创建 queue 对象的时候配置好 consumer 就可以即刻消费了。</p>
-<pre><code class="java">    // 注意这里的第二个入参，配置了 consumer，此时的 queue_2 如果 start 会直接开始消费队列中的消息
-    DistributedQueue&lt;String&gt; queue_2 = QueueBuilder.builder(client, consumer, createQueueSerializer(), PATH).buildQueue();</code></pre>
-<p>具体的逻辑可以看 queue.start() 时做了什么操作：</p>
-<pre><code class="java">    // DistributedQueue.class
-    private final boolean isProducerOnly;
-    ...
-    // 构造函数中做了如下判断
-    this.isProducerOnly = consumer == null;
-
-    // 下面就是配置了 consumer 时会进行的操作，通过 runLoop 方法去不停的消费队列
-    // public void start() throws Exception
-    if (!this.isProducerOnly) &#123;
-        this.service.submit(new Callable&lt;Object&gt;() &#123;
-             public Object call() &#123;
-                 DistributedQueue.this.runLoop();
-                 return null;
-             &#125;
-        &#125;);
-    &#125;
-
-    // private DistributedQueue.ProcessMessageBytesCode processMessageBytes(String itemNode, byte[] bytes) throws Exception 
-    // 伪代码 可以看到这个 processMessageBytes 方法是真正消费的地方，先把消息反序列化之后再使用 consumer 对象的 consumeMessage() 方法
-    this.consumer.consumeMessage(ItemSerializer.deserialize(bytes, this.serializer));</code></pre>
-<p>上面的代码中还有个缺点，通过源码可知，消费队列是先将消息从队列中移除，再由 consumer 消费。 这两个步骤不是原子的，QueueBuilder 提供了 lockPath(String path) 方法以保证消费安全。当消费者消费数据时持有锁，这样其它消费者不能消费此消息。如果消费失败或者进程死掉，消息可以交给其它进程。这会带来一点性能的损失。 最好还是单消费者模式使用队列。</p>
-<pre><code class="java">    // DistributedQueue.class
-    // private void processChildren(List&lt;String&gt; children, long currentVersion) throws Exception
-    // 这里就可以看到加锁和不加锁采用的是不同的策略
-    if (isUsingLockSafety) &#123;
-        DistributedQueue.this.processWithLockSafety(itemNode, DistributedQueue.ProcessType.NORMAL);
-    &#125; else &#123;
-        DistributedQueue.this.processNormally(itemNode, DistributedQueue.ProcessType.NORMAL);
-    &#125;</code></pre>
-<h3 id="分布式含ID队列实现（DistributedIdQueue-实现）"><a href="#分布式含ID队列实现（DistributedIdQueue-实现）" class="headerlink" title="分布式含ID队列实现（DistributedIdQueue 实现）"></a>分布式含ID队列实现（DistributedIdQueue 实现）</h3><p><code>DistributedIdQueue</code> 和上面的队列类似， 但是可以为队列中的每一个元素设置一个ID。 可以通过ID把队列中任意的元素移除。 </p>
-<p>通过下面方法创建：</p>
-<pre><code>builder.buildIdQueue()</code></pre><p>放入元素时：</p>
-<pre><code>queue.put(aMessage, messageId);</code></pre><p>移除元素时：</p>
-<pre><code>int numberRemoved = queue.remove(messageId);</code></pre><p>看下他是如何实现 id 这个属性的：</p>
-<pre><code class="java">    // DistributedIdQueue.class
-    private String makeIdPath(String itemId) &#123;
-       return this.queue.makeItemPath() + &#39;|&#39; + fixId(itemId) + &#39;|&#39;;
-    &#125;
-
-    // DistributedQueue.class
-    String makeItemPath() &#123;
-       return ZKPaths.makePath(this.queuePath, &quot;queue-&quot;);
-    &#125;</code></pre>
-<p>可以看到他是直接通过 id 的值加入 path 生成了一个指定的节点存储数据，这样也可以逆向操作得到该节点的 path 从而删除元素。</p>
-<p>添加元素调用的都是 DistributedQueue 中的 internalPut() 方法：</p>
-<pre><code class="java">    boolean internalPut(T item, MultiItem&lt;T&gt; multiItem, String path, int maxWait, TimeUnit unit) throws Exception</code></pre>
-<p>DistributedIdQueue 和 DistributedQueue 添加元素的 put 方法实际上都是调用到这个方法。DistributedIdQueue 是自己构建了 path，而 DistributedQueue 是自动生成如下的节点 path。</p>
-<pre><code>queue-0000000009
-queue-0000000008
-queue-0000000007
-queue-0000000006
-queue-0000000005
-queue-0000000004
-queue-0000000003
-queue-0000000002</code></pre><h3 id="分布式优先级队列实现（DistributedPriorityQueue-实现）"><a href="#分布式优先级队列实现（DistributedPriorityQueue-实现）" class="headerlink" title="分布式优先级队列实现（DistributedPriorityQueue 实现）"></a>分布式优先级队列实现（DistributedPriorityQueue 实现）</h3><p>优先级队列对队列中的消息按照优先级进行排序。 Priority 越小越靠前， 优先被消费。</p>
-<p>创建一个 <code>DistributedPriorityQueue</code> 的方式如下：</p>
-<pre><code class="java">    DistributedPriorityQueue&lt;String&gt; queue = builder.buildPriorityQueue(0/*minItemsBeforeRefresh*/);</code></pre>
-<p>可以看到只需要配置一个 <code>minItemsBeforeRefresh</code> 参数，这个参数用来对比当前是否需要进行重排序；需要强制重排序还需要配合 <code>refreshOnWatch</code> 参数，不过在 builder 创建 <code>DistributedPriorityQueue</code> 的时候就在 <code>DistributedQueue</code> 的构造参数上设置该值为 <code>true</code> 了。</p>
-<pre><code class="java">    // DistributedPriorityQueue 的构造参数
-    DistributedPriorityQueue(.../*很多入参*/) &#123;
-            Preconditions.checkArgument(minItemsBeforeRefresh &gt;= 0, &quot;minItemsBeforeRefresh cannot be negative&quot;);
-            this.queue = new DistributedQueue(client, consumer, serializer, queuePath, threadFactory, executor, minItemsBeforeRefresh, true/*refreshOnWatch 直接设置为 true 了。*/, lockPath, maxItems, putInBackground, finalFlushMs);
-        &#125;</code></pre>
-<p>强制重排序的逻辑如下：</p>
-<pre><code class="java">    // DistributedQueue.class
-    //private void processChildren(List&lt;String&gt; children, long currentVersion) throws Exception 
-    int min = this.minItemsBeforeRefresh;
-    ...
-    while(..)&#123;
-        // min 就是强制刷新所需的最小的元素数量，或称之你的程序可以容忍的不排序的最小值。
-        // 从源码可以看出 minItemsBeforeRefresh 被设置为 1 或者 0 都是可以直接触发重排序的一个决定因素
-        if (min-- &lt;= 0 &amp;&amp; this.refreshOnWatch &amp;&amp; currentVersion != this.childrenCache.getData().version) &#123;
-            // 这里的 processedLatch 是一个 Semaphore 对象 
-            // final Semaphore processedLatch = new Semaphore(0);
-            // 可以看到代码段的最下方的 acquire 代码，线程池消费完所有的代码之后才会 release 所有的信号量
-            // 这里直接释放了，这样处理逻辑的代码可以直接退出
-            // 然后在 runLoop 下一次循环的时候会进行 collection 的 sort
-            processedLatch.release(children.size());
-            break;
-        &#125;
-        ...
-        消费消息的代码
-        ...
-    &#125;
-    processedLatch.acquire(children.size());  </code></pre>
-<h3 id="分布式Delay队列实现（DistributedDelayQueue-实现）"><a href="#分布式Delay队列实现（DistributedDelayQueue-实现）" class="headerlink" title="分布式Delay队列实现（DistributedDelayQueue 实现）"></a>分布式Delay队列实现（DistributedDelayQueue 实现）</h3><p><code>DistributedDelayQueue</code> 中新增的元素有个delay值， 消费者隔一段时间才能收到元素。同样的可以通过 QueueBuilder 来创建该对象：</p>
-<pre><code class="java">    DistributedDelayQueue&lt;MessageType&gt; queue = builder.buildDelayQueue();</code></pre>
-<p>放入元素时可以指定 <code>delayUntilEpoch</code>：</p>
-<pre><code>queue.put(aMessage, delayUntilEpoch);</code></pre><p>注意 <code>delayUntilEpoch</code> 不是离现在的一个时间间隔， 比如20毫秒，而是未来的一个时间戳，如 <code>System.currentTimeMillis() + 10</code> 秒。 如果delayUntilEpoch的时间已经过去，消息会立刻被消费者接收。</p>
-<p>延时队列的实现同样基于 <code>DistributedQueue</code>，在 <code>runLoop</code> 方法的逻辑中，会获取元素的 delay 值，默认直接返回 0，<code>DistributedDelayQueue</code> 重写了获取 delay 时间的方法：</p>
-<pre><code class="java">    // DistributedQueue.class
-    // private void runLoop() 
-    maxWaitMs = this.getDelay((String)children.get(0));
-    if (maxWaitMs &lt;= 0L) &#123;
-        this.processChildren(children, currentVersion);
-    &#125;</code></pre>
-<pre><code class="java">    // DistributedDelayQueue.class
-    // 构造函数
-    DistributedDelayQueue(.../*很多入参*/) &#123;
-            Preconditions.checkArgument(minItemsBeforeRefresh &gt;= 0, &quot;minItemsBeforeRefresh cannot be negative&quot;);
-            this.queue = new DistributedQueue&lt;T&gt;(.../*很多入参*/) &#123;
-                // override 了原有的方法，DistributedQueue 中的 getDelay 方法直接返回 0L
-                protected long getDelay(String itemNode) &#123;
-                    return this.getDelay(itemNode, System.currentTimeMillis());
-                &#125;
-
-                private long getDelay(String itemNode, long sortTime) &#123;
-                    long epoch = DistributedDelayQueue.getEpoch(itemNode);
-                    return epoch - sortTime;
-                &#125;
-                // 重写了排序的方法，根据 delay 的时间来排序了
-                protected void sortChildren(List&lt;String&gt; children) &#123;
-                    final long sortTime = System.currentTimeMillis();
-                    Collections.sort(children, new Comparator&lt;String&gt;() &#123;
-                        public int compare(String o1, String o2) &#123;
-                            long diff = getDelay(o1, sortTime) - getDelay(o2, sortTime);
-                            return diff &lt; 0L ? -1 : (diff &gt; 0L ? 1 : 0);
-                        &#125;
-                    &#125;);
-                &#125;
-            &#125;;
-        &#125;</code></pre>
-<h3 id="JDK-Queue风格接口的分布式队列实现（SimpleDistributedQueue-实现）"><a href="#JDK-Queue风格接口的分布式队列实现（SimpleDistributedQueue-实现）" class="headerlink" title="JDK Queue风格接口的分布式队列实现（SimpleDistributedQueue 实现）"></a>JDK Queue风格接口的分布式队列实现（SimpleDistributedQueue 实现）</h3><p>前面虽然实现了各种队列，但并没有 JDK 中的队列接口风格实现。 <code>SimpleDistributedQueue</code> 提供了和JDK一致性的接口(但是没有实现Queue接口)。 创建很简单：</p>
-<pre><code>public SimpleDistributedQueue(CuratorFramework client, String path)</code></pre><p>增加元素：</p>
-<pre><code class="java">    public boolean offer(byte[] data) throws Exception
-    // 即往一个既定的 path 下有以 qn- 开头的子路径，如 /path/qn-0000001 </code></pre>
-<p>删除元素：</p>
-<pre><code class="java">    public byte[] take() throws Exception
-    // 获取队列最前的元素，同时zk剔除该路径
-    // 使用 CountDownLatch 来达到超时的设置，虽然 take 是没有设置超时的... 也就是要一致等待 zk 回应</code></pre>
-<p>另外还提供了其它方法：</p>
-<pre><code class="java">    // 获取元素 同 element() 返回队列最前的元素
-    public byte[] peek() throws Exception
-    // 和 take() 实际上是一样的方法，但是这里会有超时配置，见上关于 take()的解释
-    public byte[] poll(long timeout, TimeUnit unit) throws Exception
-    // 和 remove() 操作一样
-    public byte[] poll() throws Exception
-    // 直接删掉队列最前的元素
-    public byte[] remove() throws Exception
-    public byte[] element() throws Exception</code></pre>
+<ol start="2">
+<li>在 HAOS 的终端中通过命令配置，这个步骤较为复杂，不如直接在第一步配置。而且这里改动后，在前端页面的网络配置页面也不会展示，个人感觉官方可能也不建议这么搞。</li>
+</ol>
+<ul>
+<li>在 HA 系统中输入 <code>login</code>，登录进系统</li>
+<li>输入 <code>nmcli connection show</code> 查看你的连接列表，选择你想要修改的连接<ul>
+<li>这里新安装的话，我们通常只能看到一个 Supervisor 之类的连接，记住这个连接名称（Name）</li>
+</ul>
+</li>
+<li>输入 <code>nmcli con edit &quot;&#123;连接名称&#125;&quot;</code>  ，这是能进入到 <code>nmcli&gt;</code> 命令中</li>
+<li>这时候修改网络地址即可，连续输入以下几个命令：</li>
+</ul>
+<pre><code class="shell">nmcli&gt; set ipv4.address 192.168.0.123/24
+nmcli&gt; set ipv4.dns 192.168.0.111
+nmcli&gt; set ipv4.gateway 192.168.0.111
+nmcli&gt; save
+nmcli&gt; quit</code></pre>
+<ul>
+<li>完成以上动作后，输入 <code>exit</code> 退出刚才 <code>login</code> 的系统，回到 <code>ha&gt;</code> 命令页面，输入 <code>ho reboot</code> 重启服务</li>
+<li>系统重启后，输入 <code>ha newtork info</code> 就可以看到网络配置改好了。</li>
+</ul>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 nickchenyx@gmail.com </span>
@@ -1094,12 +961,12 @@ queue-0000000002</code></pre><h3 id="分布式优先级队列实现（Distribute
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">Title:</span>实现分布式队列通过 Curator</p>
-    <p><span class="copy-title">Count:</span><span class="post-count">2k</span></p>
+    <p><span class="copy-title">Title:</span>homeassistant_change_network</p>
+    <p><span class="copy-title">Count:</span><span class="post-count">550</span></p>
     <p><span class="copy-title">Author:</span><a  title="nickChen">nickChen</a></p>
-    <p><span class="copy-title">Created At:</span>2018-04-12, 11:33:29</p>
-    <p><span class="copy-title">Updated At:</span>2023-05-08, 23:27:10</p>
-    <span class="copy-title">Url:</span><a class="post-url" href="/2018/04/12/CuratorFramework-DistributedQueue/" title="实现分布式队列通过 Curator">http://nickchenyx.github.io/2018/04/12/CuratorFramework-DistributedQueue/</a>
+    <p><span class="copy-title">Created At:</span>2023-09-09, 19:03:22</p>
+    <p><span class="copy-title">Updated At:</span>2023-09-09, 20:01:02</p>
+    <span class="copy-title">Url:</span><a class="post-url" href="/2023/09/09/%E4%BF%AE%E6%94%B9%20Home%20Assistant%20%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/" title="homeassistant_change_network">http://nickchenyx.github.io/2023/09/09/%E4%BF%AE%E6%94%B9%20Home%20Assistant%20%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</a>
     <p>
         <span class="copy-title">Copyright:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">&#39;Attribution-non-commercial-shared in the same way 4.0&#39;</a> Reprint please keep the original link and author.
     </p>
